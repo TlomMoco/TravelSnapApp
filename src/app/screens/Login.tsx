@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import React from "react";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
@@ -13,11 +13,25 @@ const Login = () => {
         <View style={styles.container}>
             <Text>Login</Text>
             <TextInput style={styles.input} 
+            value={email}
             placeholder="Email" 
             autoCapitalize="none"
             onChangeText={(text) => setEmail(text)}>
 
             </TextInput>
+            <TextInput style={styles.input} 
+            value={password}
+            placeholder="Password" 
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}>
+
+            </TextInput>
+
+            { loading ? <ActivityIndicator size="large"/> 
+            : <>
+        
+            </> }
         </View>
     )
 }
