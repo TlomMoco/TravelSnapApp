@@ -4,6 +4,12 @@ import React from "react";
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"
 
+/*
+    Referanse:
+    Super Easy React Native AUTHENTICATION with Firebase - Simon Grim (09.05.2023)
+    https://www.youtube.com/watch?v=ONAVmsGW6-M&ab_channel=SimonGrimm
+*/
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
