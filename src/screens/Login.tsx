@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, ActivityIndicator, KeyboardAvoidingView, TouchableOpacity, ImageBackground } from "react-native";
 import { useState } from "react";
 import React from "react";
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
@@ -43,46 +43,57 @@ const Login = () => {
         }
     }
 
+
     return (
-        <View className="flex-1 justify-center bg-white">
-            <Text className="text-xl font-bold text-center mb-4">Login</Text>
-            <KeyboardAvoidingView behavior="padding" className="mx-4">
-                <TextInput className="mb-4 p-4 h-12 border border-gray-300 rounded-lg bg-white"
-                    value={email}
-                    placeholder="Email"
-                    autoCapitalize="none"
-                    onChangeText={setEmail}
-                />
-                <TextInput className="mb-4 p-4 h-12 border border-gray-300 rounded-lg bg-white"
-                    value={password}
-                    placeholder="Password"
-                    autoCapitalize="none"
-                    secureTextEntry={true}
-                    onChangeText={setPassword}
-                />
-                {loading ? (
-                    <ActivityIndicator size="large" className="my-4" />
-                ) : (
-                    <>
-                        <TouchableOpacity
-                            onPress={signIn}
-                            className="mb-4 bg-orange-500 py-2 rounded-lg items-center justify-center"
-                        >
-                        <Text className="text-white font-bold">Login</Text>
-                        </TouchableOpacity>
+        <ImageBackground
+            source={require('../assets/images/login.png')}
+            resizeMode="cover"
+            className="flex-1"
+        >
+            <View className="flex-1 justify-center items-center">
+                <View className="w-full items-center mt-30 p-5 bg-white bg-opacity-50 rounded-lg">
+                    <Text className="text-4xl font-bold text-center mb-4">Welcome to Travel App</Text>
+                    <KeyboardAvoidingView behavior="padding" className="w-full px-8">
+                        <TextInput 
+                            className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
+                            value={email}
+                            placeholder="Email"
+                            autoCapitalize="none"
+                            onChangeText={setEmail}
+                        />
+                        <TextInput 
+                            className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
+                            value={password}
+                            placeholder="Password"
+                            autoCapitalize="none"
+                            secureTextEntry={true}
+                            onChangeText={setPassword}
+                        />
+                        {loading ? (
+                            <ActivityIndicator size="large" className="my-4" />
+                        ) : (
+                            <>
+                                <TouchableOpacity
+                                    onPress={signIn}
+                                    className="mb-4 bg-orange-500 py-2 rounded-lg items-center justify-center"
+                                >
+                                    <Text className="text-white font-bold">Sign in</Text>
+                                </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={signUp}
-                            className="bg-orange-500 py-2 rounded-lg items-center justify-center"
-                        >
-                        <Text className="text-white font-bold">Create user</Text>
-                        </TouchableOpacity>
-                    </>
-                )}
-            </KeyboardAvoidingView>
-        </View>
-    )
-}
+                                <TouchableOpacity
+                                    onPress={signUp}
+                                    className="bg-orange-500 py-2 rounded-lg items-center justify-center"
+                                >
+                                    <Text className="text-white font-bold">Create user</Text>
+                                </TouchableOpacity>
+                            </>
+                        )}
+                    </KeyboardAvoidingView>
+                </View>
+            </View>
+        </ImageBackground>
+    );
+};
 
 
-export default Login
+export default Login;
