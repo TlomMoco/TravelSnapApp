@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
-
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
 import GeoLocationPage from "../pages/GeolocationPage";
 import HomePage from "../pages/HomePage";
+import CameraPage from "../pages/CameraPage"
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -15,6 +14,7 @@ const TabsView = () => {
        <Tab.Navigator>
             <Tab.Screen name="Home" component={HomePage}></Tab.Screen>
             <Tab.Screen name="Geo location" component={GeoLocationPage}></Tab.Screen>
+            <Tab.Screen name="Camera" component={CameraPage}></Tab.Screen>
        </Tab.Navigator>
     );
 };
