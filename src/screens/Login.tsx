@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAvoidingView } from "react-native";
+import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import React from "react";
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
@@ -45,51 +45,45 @@ const Login = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text>Login</Text>
-            <KeyboardAvoidingView behavior="padding">
-            <TextInput style={styles.input} 
-            value={email}
-            placeholder="Email" 
-            autoCapitalize="none"
-            onChangeText={(text) => setEmail(text)}>
+        <View className="flex-1 justify-center bg-white">
+            <Text className="text-xl font-bold text-center mb-4">Login</Text>
+            <KeyboardAvoidingView behavior="padding" className="mx-4">
+                <TextInput className="mb-4 p-4 h-12 border border-gray-300 rounded-lg bg-white"
+                    value={email}
+                    placeholder="Email"
+                    autoCapitalize="none"
+                    onChangeText={setEmail}
+                />
+                <TextInput className="mb-4 p-4 h-12 border border-gray-300 rounded-lg bg-white"
+                    value={password}
+                    placeholder="Password"
+                    autoCapitalize="none"
+                    secureTextEntry={true}
+                    onChangeText={setPassword}
+                />
+                {loading ? (
+                    <ActivityIndicator size="large" className="my-4" />
+                ) : (
+                    <>
+                        <TouchableOpacity
+                            onPress={signIn}
+                            className="mb-4 bg-orange-500 py-2 rounded-lg items-center justify-center"
+                        >
+                        <Text className="text-white font-bold">Login</Text>
+                        </TouchableOpacity>
 
-            </TextInput>
-            <TextInput style={styles.input} 
-            value={password}
-            placeholder="Password" 
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={(text) => setPassword(text)}>
-
-            </TextInput>
-
-            { loading ? (<ActivityIndicator size="large"/> 
-            ) : (
-            <>
-                <Button title="Login" onPress={signIn}/>
-                <Button title="Create user" onPress={signUp}/>
-            </> 
-            )}
+                        <TouchableOpacity
+                            onPress={signUp}
+                            className="bg-orange-500 py-2 rounded-lg items-center justify-center"
+                        >
+                        <Text className="text-white font-bold">Create user</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
             </KeyboardAvoidingView>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        marginHorizontal: 20,
-        flex: 1,
-        justifyContent: "center"
-    },
-    input: {
-        marginVertical: 4,
-        height: 50,
-        borderWidth: 1,
-        borderRadius: 4,
-        padding: 10,
-        backgroundColor: "#fff"
-    }
-})
 
 export default Login
