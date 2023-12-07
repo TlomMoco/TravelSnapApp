@@ -51,56 +51,29 @@ const CameraPage: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
-        {!image ?
-      <Camera
-        style={styles.camera}
-        type={type}
-        flashMode={flash}
-        ref={cameraRef}
-      >
-        <View style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: 30
-        }}>
-            <Button icon={"retweet"} onPress={() => {setType(type === CameraType.back ? CameraType.front : CameraType.back)}}/>
-            <Button color={flash === FlashMode.off ? "gray" : "#f1f1f1"} icon={"flash"} onPress={() => {setFlash(flash === FlashMode.off ? FlashMode.on : FlashMode.off)}}/>
-        </View>
-      </Camera>
-        :
-        <Image source={{uri: image}} style={styles.camera}/>
-    }
+    <View className="flex-1 bg-white justify-center">
+      {!image ? (
+        <Camera className="flex-1 rounded-lg" type={type} flashMode={flash} ref={cameraRef}>
+          <View className="flex-row justify-between px-20">
+            <Button icon={'retweet'} onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)} />
+            <Button color={flash === FlashMode.off ? 'gray' : '#f1f1f1'} icon={'flash'} onPress={() => setFlash(flash === FlashMode.off ? FlashMode.on : FlashMode.off)} />
+          </View>
+        </Camera>
+      ) : (
+        <Image source={{ uri: image }} className="flex-1 rounded-lg" />
+      )}
       <View>
-        {image ? 
-        <View style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 50
-        }}
-        >
-            <Button title={"re-take picture"} icon="retweet" onPress={() => setImage(undefined)}/>
-            <Button title={"Save picture"} icon="check" onPress={saveImage}/>
-        </View>    
-        :
-        <Button title={"Take picture"} icon="check" onPress={takePicture}></Button>
-        }
+        {image ? (
+          <View className="flex-row justify-between px-20">
+            <Button title={'re-take picture'} icon="retweet" onPress={() => setImage(undefined)} />
+            <Button title={'Save picture'} icon="check" onPress={saveImage} />
+          </View>
+        ) : (
+          <Button title={'Take picture'} icon="camera" color='orange' onPress={takePicture}></Button>
+        )}
       </View>
     </View>
   );
 };
 
 export default CameraPage;
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      justifyContent: 'center',
-    },
-    camera: {
-      flex: 1,
-      borderRadius: 20,
-    }
-  });
-  
