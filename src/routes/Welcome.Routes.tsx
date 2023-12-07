@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import TabsView from "././index";
 import Login from "../screens/Login";
 import List from "../screens/List";
 import Details from "../screens/Details";
@@ -24,18 +25,24 @@ const WelcomeRoutes: React.FC = () => {
     const [user, setUser] = useState<User | null>(null)
   
     useEffect(() => {
-      onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
         console.log("user", user);
         setUser(user);
-      })
+      }); 
+      
+      return unsubscribe;
     }, []);
   
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Login'>
           { user ? (
-            <Stack.Screen name='Inside' component={InsideLayout} options={{headerShown: false}}/>
+            // If user is logged in, the tabsview rendered
+            <Stack.Group>
+             <Stack.Screen name="Tabs" component={TabsView}  options={{headerShown: false}} ></Stack.Screen>
+            </Stack.Group>
           ) : (
+            // If no user, loggin is rendered 
             <Stack.Screen name='Login' component={Login} options={{headerShown: false}}/>
           )}
         </Stack.Navigator>
