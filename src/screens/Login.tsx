@@ -21,7 +21,6 @@ const Login = () => {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
             console.log(response);
-            alert("Check your email")
         } catch (error) {
             console.log(error)
             alert("Sign in failed: " + error)
