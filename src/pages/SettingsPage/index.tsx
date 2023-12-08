@@ -9,9 +9,8 @@ type RouterProps = {
 
 const List = ({ navigation }: RouterProps) => {
     return (
-        <View>
-            <Button onPress={() => navigation.navigate("Details")} title="Open details"/>
-            <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sing out"/>
+        <View className="flex-1 justify-center items-center">
+            <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign out"/>
         </View>
     )
 }
