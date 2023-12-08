@@ -3,8 +3,8 @@ import { View, Text } from 'react-native';
 
 const HomePage = () => {
   return (
-    <View className="flex-1 items-center justify-center bg-blue-100">
-      <Text className="text-lg font-bold text-blue-800">HomePage Page</Text>
+    <View className="flex-1 items-center justify-center">
+      <Text className="text-lg font-bold text-black">HomePage Page</Text>
       {/* Legg til komponenter her*/}
     </View>
   );
