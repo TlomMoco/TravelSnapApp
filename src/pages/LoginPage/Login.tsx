@@ -46,7 +46,7 @@ const Login = () => {
 
     return (
         <ImageBackground
-            source={require('../assets/images/login.png')}
+            source={require('../../assets/images/login.png')}
             resizeMode="cover"
             className="flex-1"
         >
