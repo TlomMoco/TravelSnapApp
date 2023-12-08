@@ -36,7 +36,17 @@
         {
           "ios": {
             "useFrameworks": "static"
+          },
+          "android": {
+            "useFrameworks": "static"
           }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your camera.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
       ]
     ]
