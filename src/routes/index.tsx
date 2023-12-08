@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import GeoLocationPage from "../pages/GeolocationPage";
+import GeoLocationPage from "../pages/GeoLocationPage";
 import HomePage from "../pages/HomePage";
 import CameraPage from "../pages/CameraPage";
 import SettingsPage from "../pages/SettingsPage";
+import {IconName } from "../model/iconName";
 import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 /*
     Referanse:
@@ -18,14 +20,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 */
 
 const Tab = createMaterialBottomTabNavigator();
-
-type TabIconProps = {
-    focused: boolean;
-    color: string;
-    size: number;
-  };
-
-type IconName = React.ComponentProps<typeof Ionicons>['name'];
 
 const createTabOptions = (iconName: IconName) => ({
     tabBarIcon: () => (
