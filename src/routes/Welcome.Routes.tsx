@@ -8,16 +8,10 @@ import { useState, useEffect } from "react"
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
 
 
-const Stack = createNativeStackNavigator();
-const InsideStack = createNativeStackNavigator();
 
-const InsideLayout = () => {
-    return (
-      <InsideStack.Navigator>
-        <InsideStack.Screen name="List" component={List}/>
-      </InsideStack.Navigator>
-    )
-}
+
+
+const Stack = createNativeStackNavigator();
 
 const WelcomeRoutes: React.FC = () => {
     const [user, setUser] = useState<User | null>(null)
