@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabsView from "././index";
-import Login from "../screens/Login";
-import List from "../screens/List";
+import Login from "../pages/LoginPage/Login";
+import List from "../pages/SettingsPage/List";
 import Details from "../screens/Details";
 import { User, onAuthStateChanged } from "firebase/auth"
 import { useState, useEffect } from "react"

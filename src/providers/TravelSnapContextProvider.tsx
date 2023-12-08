@@ -5,7 +5,7 @@ import {
     useEffect,
     useState 
 } from "react"
-import { ImageInfo } from "../data"
+import { ImageInfo } from "../model/data"
 
 
 
