@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import GeoLocationPage from "../pages/GeoLocationPage";
+import GeoLocationPage from "../pages/GeolocationPage";
 import HomePage from "../pages/HomePage";
 import CameraPage from "../pages/CameraPage";
 import SettingsPage from "../pages/SettingsPage";
