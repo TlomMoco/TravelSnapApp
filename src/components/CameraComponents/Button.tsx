@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 
 
@@ -8,34 +8,17 @@ type buttonProps = {
     onPress: () => void,
     icon: keyof typeof Entypo.glyphMap,
     color?: string,
-    backgroundColor?: string,
 };
 
-const Button: React.FC<buttonProps> = ({title, onPress, icon, color = "#f1f1f1", backgroundColor = "transparent"}) => {
+const Button: React.FC<buttonProps> = ({title, onPress, icon, color = "#f1f1f1"}) => {
 
     return(
-        <TouchableOpacity onPress={onPress} style={[styles.button, { backgroundColor }]}>
+        <TouchableOpacity onPress={onPress} className="h-20 flex-row items-center justify-center pb-5">
             <Entypo name={icon} size={28} color={color ? color : "#f1f1f1"}></Entypo>
-            <Text style={styles.text}>{title}</Text>
+            <Text className="font-bold text-lg text-black ml-3">{title}</Text>
         </TouchableOpacity>
     )
 };
 
 export default Button;
 
-
-const styles = StyleSheet.create({
-    button: {
-        height: 60,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        paddingBottom: 5
-    },
-    text: {
-        fontWeight: "bold",
-        fontSize: 16,
-        color: "f1f1f1",
-        marginLeft: 10
-    }
-})

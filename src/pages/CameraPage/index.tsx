@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 import { Camera, CameraType, FlashMode } from 'expo-camera';
 import * as MediaLibrary from "expo-media-library"
-import { useState, useEffect, useRef, SetStateAction } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Button from '../../components/CameraComponents/Button';
 
 const CameraPage: React.FC = () => {
@@ -51,25 +51,26 @@ const CameraPage: React.FC = () => {
   }
 
   return (
-    <View className="flex-1 bg-white justify-center">
+    <View className="flex-1 bg-white justify-center bg-transparent">
       {!image ? (
-        <Camera className="flex-1 rounded-lg" type={type} flashMode={flash} ref={cameraRef}>
-          <View className="flex-row justify-between px-20">
-            <Button icon={'retweet'} onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)} />
-            <Button color={flash === FlashMode.off ? 'gray' : '#f1f1f1'} icon={'flash'} onPress={() => setFlash(flash === FlashMode.off ? FlashMode.on : FlashMode.off)} />
+        <Camera className="flex-1" type={type} flashMode={flash} ref={cameraRef}>
+          <View className="absolute top-0 left-0 right-0 flex-row justify-between p-12 px-16">
+            <Button color="orange" icon={'retweet'} onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)} />
+            <Button color={flash === FlashMode.off ? "gray" : "orange"} icon={"flash"} onPress={() => setFlash(flash === FlashMode.off ? FlashMode.on : FlashMode.off)} />
           </View>
         </Camera>
       ) : (
-        <Image source={{ uri: image }} className="flex-1 rounded-lg" />
+        <Image source={{ uri: image }} className="flex-1" />
       )}
-      <View>
+      <View className="absolute bottom-0 left-0 right-0">
         {image ? (
-          <View className="flex-row justify-between px-20">
-            <Button title={'re-take picture'} icon="retweet" onPress={() => setImage(undefined)} />
-            <Button title={'Save picture'} icon="check" onPress={saveImage} />
+          <View className="flex-row justify-between px-16">
+            <Button icon="retweet" color="orange" onPress={() => setImage(undefined)} />
+            <Button icon="check" color="orange" onPress={saveImage} />
           </View>
         ) : (
-          <Button title={'Take picture'} icon="camera" color='orange' onPress={takePicture}></Button>
+            
+          <Button icon="camera" color="orange" onPress={takePicture}></Button>
         )}
       </View>
     </View>
