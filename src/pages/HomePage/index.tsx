@@ -32,12 +32,14 @@ const HomePage: React.FC = () => {
   return (
     <View className="flex-1 items-center justify-center">
       <Text className="text-lg font-bold text-black">HomePage Page</Text>
-      <View className='flex-row'>
+      <View className="flex-row">
         <FlatList
           data = {imageUrls}
           keyExtractor = {(url) => url}
           renderItem = {({item}) => (
-            <Image source={{uri: item}} style={{ width: 100, height: 100 }}/>
+            <View className="mr-4">
+              <Image source={{uri: item}} style={{ width: 100, height: 100 }}/>
+            </View>
           )}
         />
       </View>
