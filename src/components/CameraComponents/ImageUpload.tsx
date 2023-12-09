@@ -8,14 +8,20 @@ export const UniqueId = (uri: string): string => {
 }
 
 export const ImageUpload = async (imageUri: string, id: string) => {
-    const response = await fetch(imageUri);
-    const blob = await response.blob();
+    try {
+        const response = await fetch(imageUri);
+        const blob = await response.blob();
+        
+        const storageRef = ref(FIREBASE_STORAGE, `images/${id}.jpg`);
+        
+        await uploadBytes(storageRef, blob)
 
-    const storageRef = ref(FIREBASE_STORAGE, `images/${id}`);
-    
-    await uploadBytes(storageRef, blob)
+        const downloadUrl = await getDownloadURL(storageRef)
 
-    const downloadUrl = await getDownloadURL(storageRef)
+        return downloadUrl
 
-    return downloadUrl
+    } catch (error) {
+        console.log("uploadBytes error", error)
+        throw error
+    }  
 }

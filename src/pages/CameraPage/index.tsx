@@ -4,12 +4,11 @@ import * as MediaLibrary from "expo-media-library"
 import { useState, useEffect, useRef } from 'react';
 import Button from '../../components/CameraComponents/Button';
 import { ImageUpload, UniqueId } from '../../components/CameraComponents/ImageUpload';
-import { useImageContext } from '../../providers/TravelSnapContextProvider';
+import { UseImageContext } from '../../providers/TravelSnapContextProvider';
 
 const CameraPage: React.FC = () => {
 
-    // Benytte context til å sette image i homepage senere?
-    const context = useImageContext();
+    const context = UseImageContext();
 
     const [hasCameraPermission, setHasCameraPermission] = useState(false);
     const [image, setImage] = useState<string | undefined>(undefined);
@@ -30,24 +29,8 @@ const CameraPage: React.FC = () => {
         if(cameraRef) {
             try {
                 const data = await cameraRef.current?.takePictureAsync();
-
                 setImage(data?.uri)
-
-                const id = UniqueId(data?.uri || "");
-                const uploadURL = await ImageUpload(data?.uri || "", id)
-
                 console.log(data)
-
-                
-
-                /*
-                context?.setCurrentImage({
-                    name: id,
-                    date: new Date().toISOString(),
-                    imageUri: uploadURL || "",
-                });
-                */
-
             } catch (error) {
                 console.log(error)
             }
@@ -56,12 +39,20 @@ const CameraPage: React.FC = () => {
 
     const saveImage = async () => {
         if (image) {
+            try{
+                const id = UniqueId(image || "");
+                const uploadURL = await ImageUpload(image || "", id);
+                context?.setImageUrls([uploadURL, ...context.imageUrls || []]);
+
+            }catch (error){
+                console.log("Error uplaoding image to firebase:", error)
+            }
             try {
                 await MediaLibrary.createAssetAsync(image);
                 alert("Picture saved to library!")
                 setImage(undefined)
             } catch (error) {
-                console.log(error)
+                console.log("Error saving image to library", error)
             }
         }
     }
@@ -98,3 +89,12 @@ const CameraPage: React.FC = () => {
 };
 
 export default CameraPage;
+
+
+/*
+context?.setCurrentImage({
+    name: id,
+    date: new Date().toISOString(),
+    imageUri: uploadURL || "",
+});
+*/

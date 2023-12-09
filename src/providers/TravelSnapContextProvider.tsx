@@ -1,31 +1,28 @@
-import { 
-    createContext,
-    ReactNode,
-    useContext,
-    useEffect,
-    useState 
-} from "react"
-import { ImageInfo } from "../model/data"
-
-
+import { createContext, ReactNode, useContext, useState } from "react";
+import { ImageInfo } from "../model/data";
 
 type ImageContextType = {
     currentImage: ImageInfo | null;
+    imageUrls: string[];
     setCurrentImage: (image: ImageInfo | null) => void;
+    setImageUrls: (urls: string[]) => void;
 };
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined)
 
-export const useImageContext = () => useContext(ImageContext);
+export const UseImageContext = () => useContext(ImageContext);
 
 const TravelContextProvider = ({children} : {children: ReactNode}) => {
     const [currentImage, setCurrentImage] = useState<ImageInfo | null>(null);
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
 
     return(
         <ImageContext.Provider
             value={{
                 currentImage,
-                setCurrentImage
+                imageUrls,
+                setCurrentImage,
+                setImageUrls,
             }}
         >
             {children}
