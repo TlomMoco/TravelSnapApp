@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, Dimensions } from 'react-native';
 import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
+import { useTheme } from '../../providers/ThemeContext'; 
 
 const HomePage: React.FC = () => {
   const context = UseImageContext();
@@ -43,11 +44,15 @@ const HomePage: React.FC = () => {
     getImages();
   }, [context?.setImageUrls]);
 
+  const { isDarkMode } = useTheme(); 
 
+ 
+  const textColor = isDarkMode ? 'text-white' : 'text-black';
+  const backgroundColor = isDarkMode ? 'bg-black' : 'bg-white'; 
 
   return (
-    <View className="flex-1 items-center justify-center bg-[#151512]">
-      <Text className="text-lg font-bold text-black color-white">HomePage Page</Text>
+    <View className={`flex-1 items-center justify-center ${backgroundColor}`}>
+      <Text className={`text-lg font-bold text-black color-white ${textColor}`}>HomePage Page</Text>
       <View className="flex-row ">
         <FlatList
           key={numColumns.toString()}
