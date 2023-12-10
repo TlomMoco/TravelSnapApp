@@ -1,10 +1,12 @@
 import { Text, View, Image } from 'react-native';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
 import * as MediaLibrary from "expo-media-library"
-import { useState, useEffect, useRef } from 'react';
 import Button from '../../components/CameraComponents/Button';
+import ImageResizer from "react-native-image-resizer"
+import { useState, useEffect, useRef } from 'react';
 import { ImageUpload, UniqueId } from '../../components/CameraComponents/ImageUpload';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
+
 
 const CameraPage: React.FC = () => {
 
@@ -29,7 +31,17 @@ const CameraPage: React.FC = () => {
         if(cameraRef) {
             try {
                 const data = await cameraRef.current?.takePictureAsync();
-                setImage(data?.uri)
+                if(data?.uri){
+                    const resizedImage = ImageResizer.createResizedImage(
+                        data.uri,
+                        800,
+                        600,
+                        "JPEG",
+                        80
+                    )
+                    setImage((await resizedImage).uri)
+                }
+
                 console.log(data)
             } catch (error) {
                 console.log(error)
