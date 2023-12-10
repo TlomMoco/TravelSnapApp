@@ -31,17 +31,21 @@ const CameraPage: React.FC = () => {
         if(cameraRef) {
             try {
                 const data = await cameraRef.current?.takePictureAsync();
-                if(data?.uri){
+                if(data && data?.uri){
                     const resizedImage = ImageResizer.createResizedImage(
-                        data.uri,
+                        data?.uri,
                         800,
                         600,
                         "JPEG",
                         80
                     )
-                    setImage((await resizedImage).uri)
+                    if (resizedImage) {
+                        const resizedUri = (await resizedImage).uri;
+                        setImage(resizedUri);
+                      } else {
+                        console.log("Resized image is null");
+                      }
                 }
-
                 console.log(data)
             } catch (error) {
                 console.log(error)
