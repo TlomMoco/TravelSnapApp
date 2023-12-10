@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
   
     return { width: imageWidth, height: imageHeight };
   };
-  const dimensions = calculateImageDimensions(numColumns, 5)
+  const dimensions = calculateImageDimensions(numColumns, 10)
 
   
   useEffect(() => {
@@ -48,16 +48,16 @@ const HomePage: React.FC = () => {
   return (
     <View className="flex-1 items-center justify-center bg-[#151512]">
       <Text className="text-lg font-bold text-black color-white">HomePage Page</Text>
-      <View className="flex-row">
+      <View className="flex-row ">
         <FlatList
           key={numColumns.toString()}
           data = {context?.imageUrls}
           keyExtractor = {(url) => url}
           numColumns={numColumns}
           renderItem = {({item}) => (
-            <View className="m-0.5 justify-center items-center bg-[#E8DEF8] rounded">
+            <View className="m-0.5 items-center justify-center bg-[#E8DEF8] rounded">
               <Image source={{uri: item}} style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5}}/>
-              <Text className="font-bold">Caption</Text>
+              <Text className="font-bold p-1">Caption</Text>
             </View>
           )}
         />

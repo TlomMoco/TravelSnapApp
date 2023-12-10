@@ -1,6 +1,6 @@
 import { FirebaseApp } from "firebase/app";
 import { FIREBASE_AUTH, FIREBASE_DB, FIREBASE_STORAGE } from "../../firebase/FirebaseConfig";
-import { FirebaseStorage, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { FirebaseStorage, getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 
 export const UniqueId = (uri: string): string => {
     const filename = uri.split("/").pop()
@@ -8,20 +8,14 @@ export const UniqueId = (uri: string): string => {
 }
 
 export const ImageUpload = async (imageUri: string, id: string) => {
-    try {
-        const response = await fetch(imageUri);
-        const blob = await response.blob();
-        
-        const storageRef = ref(FIREBASE_STORAGE, `images/${id}.jpg`);
-        
-        await uploadBytes(storageRef, blob)
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
 
-        const downloadUrl = await getDownloadURL(storageRef)
+    const storageRef = ref(FIREBASE_STORAGE, `images/${id}`);
+    
+    await uploadBytesResumable(storageRef, blob)
 
-        return downloadUrl
+    const downloadUrl = await getDownloadURL(storageRef)
 
-    } catch (error) {
-        console.log("uploadBytes error", error)
-        throw error
-    }  
+    return downloadUrl
 }
