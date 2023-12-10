@@ -46,13 +46,13 @@ const Login = () => {
 
     return (
         <ImageBackground
-            source={require('../../assets/images/login.png')}
+            source={require('../../assets/images/BackroundLogin.png')}
             resizeMode="cover"
             className="flex-1"
         >
-            <View className="flex-1 justify-center items-center">
-                <View className="w-full items-center mt-30 p-5 bg-white bg-opacity-50 rounded-lg">
-                    <Text className="text-4xl font-bold text-center mb-4">Welcome to Travel App</Text>
+            <View className="flex-1 justify-center items-center px-6">
+                <View className="w-full items-center mt-30 p-5 bg-white opacity-80 rounded-lg">
+                    <Text className="text-2xl font-bold text-center mb-4">Welcome to Travel App</Text>
                     <KeyboardAvoidingView behavior="padding" className="w-full px-8">
                         <TextInput 
                             className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"

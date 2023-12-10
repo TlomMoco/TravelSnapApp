@@ -1,4 +1,4 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { FIREBASE_AUTH } from "../../firebase/FirebaseConfig";
@@ -10,7 +10,9 @@ type RouterProps = {
 const List = ({ navigation }: RouterProps) => {
     return (
         <View className="flex-1 justify-center items-center">
-            <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign out"/>
+            <TouchableOpacity className="bg-orange-500 py-2 rounded-lg items-center justify-center" onPress={()=> FIREBASE_AUTH.signOut()}>
+                <Text className="text-white font-bold">Sign out</Text>
+            </TouchableOpacity>
         </View>
     )
 }
