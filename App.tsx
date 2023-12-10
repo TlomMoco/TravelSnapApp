@@ -9,12 +9,9 @@ import { Provider as PaperProvider } from 'react-native-paper';
 export default function App() {
   const {height} = useWindowDimensions()
 
-// Test to see If we need <PaperProvider></PaperProvider>
   return (
     <TravelContextProvider>
-      <PaperProvider>
         <WelcomeRoutes/>
-      </PaperProvider>
     </TravelContextProvider>
   );
 }
