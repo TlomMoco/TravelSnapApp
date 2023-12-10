@@ -1,5 +1,6 @@
 import { View, Text, TextInput, ActivityIndicator, KeyboardAvoidingView, TouchableOpacity, ImageBackground } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as Font from 'expo-font'; 
 import React from "react";
 import { FIREBASE_AUTH } from "../../firebase/FirebaseConfig";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"
@@ -13,8 +14,20 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "fire
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [fontsLoaded, setFontsLoaded] = useState(false)
     const auth = FIREBASE_AUTH;
+    
+    useEffect(() => {
+        const loadFonts = async () => {
+            await Font.loadAsync({
+                'FederalEscort-Regular': require('../../assets/fonts/federalescortscan.ttf'), 
+            });
+            setFontsLoaded(true);
+        };
+
+        loadFonts();
+    }, []);
     
     const signIn = async () => {
         setLoading(true);
@@ -43,6 +56,10 @@ const Login = () => {
         }
     }
 
+    if (!fontsLoaded) {
+        return <ActivityIndicator />; 
+    }
+
 
     return (
         <ImageBackground
@@ -51,8 +68,8 @@ const Login = () => {
             className="flex-1"
         >
             <View className="flex-1 justify-center items-center px-6">
-                <View className="w-full items-center mt-30 p-5 bg-white opacity-80 rounded-lg">
-                    <Text className="text-2xl font-bold text-center mb-4">Welcome to Travel App</Text>
+                <View className="w-full items-center mt-10 p-5 bg-white opacity-80 rounded-lg">
+                    <Text  className="text-3xl font-bold text-center mb-4" style={{ fontFamily: 'FederalEscort-Regular' }}>TravelSnap</Text>
                     <KeyboardAvoidingView behavior="padding" className="w-full px-8">
                         <TextInput 
                             className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
