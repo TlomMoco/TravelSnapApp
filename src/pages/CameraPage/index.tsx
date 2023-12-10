@@ -31,6 +31,7 @@ const CameraPage: React.FC = () => {
         if(cameraRef) {
             try {
                 const data = await cameraRef.current?.takePictureAsync();
+                /*
                 if(data && data?.uri){
                     const resizedImage = ImageResizer.createResizedImage(
                         data?.uri,
@@ -39,13 +40,10 @@ const CameraPage: React.FC = () => {
                         "JPEG",
                         80
                     )
-                    if (resizedImage) {
-                        const resizedUri = (await resizedImage).uri;
-                        setImage(resizedUri);
-                      } else {
-                        console.log("Resized image is null");
-                      }
-                }
+                    const resizedUri = (await resizedImage).uri;
+                    */
+                    setImage(data?.uri);
+//                }
                 console.log(data)
             } catch (error) {
                 console.log(error)
@@ -56,9 +54,19 @@ const CameraPage: React.FC = () => {
     const saveImage = async () => {
         if (image) {
             try{
+                ImageResizer.createResizedImage(
+                    image,
+                    800,
+                    600,
+                    "JPEG",
+                    80,
+                )
                 const id = UniqueId(image || "");
+                console.log("THIS IS THE IMAGE:", image)
+
                 const uploadURL = await ImageUpload(image || "", id);
                 context?.setImageUrls([uploadURL, ...context.imageUrls || []]);
+                
 
             }catch (error){
                 console.log("Error uplaoding image to firebase:", error)
