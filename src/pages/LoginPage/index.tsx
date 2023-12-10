@@ -21,7 +21,7 @@ const Login = () => {
     useEffect(() => {
         const loadFonts = async () => {
             await Font.loadAsync({
-                'FederalEscort-Regular': require('../../assets/fonts/ADVEGD.ttf'), 
+                'LoginFont': require('../../assets/fonts/ADVEGD.ttf'), 
             });
             setFontsLoaded(true);
         };
@@ -65,14 +65,14 @@ const Login = () => {
         <ImageBackground
             source={require('../../assets/images/BackgroundForestLogin.png')}
             resizeMode="cover"
-            className="flex-1"
+            className="flex-1 "
         >
             <View className="flex-1 justify-center items-center px-6">
-                <View className="w-full items-center mt-10 p-5 bg-white opacity-80 rounded-lg">
-                    <Text  className="text-5xl font-bold text-center mb-4" style={{ fontFamily: 'FederalEscort-Regular' }}>TravelSnap</Text>
+                <View className="w-full items-center mt-10 p-5 bg-white/80 rounded-lg  ">
+                    <Text  className="text-5xl mb-10" style={{ fontFamily: 'LoginFont' }}>TravelSnap</Text>
                     <KeyboardAvoidingView behavior="padding" className="w-full px-8">
                         <TextInput 
-                            className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
+                            className="mb-4 p-4 h-12 border border-gray-300 rounded-lg "
                             value={email}
                             placeholder="Email"
                             autoCapitalize="none"
@@ -92,7 +92,7 @@ const Login = () => {
                             <>
                                 <TouchableOpacity
                                     onPress={signIn}
-                                    className="mb-4 bg-orange-500 py-2 rounded-lg items-center justify-center"
+                                    className="mb-4 bg-orange-500 py-2 rounded-lg items-center justify-center "
                                 >
                                     <Text className="text-white font-bold">Sign in</Text>
                                 </TouchableOpacity>
