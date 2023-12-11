@@ -6,8 +6,19 @@ import ImageResizer from "react-native-image-resizer"
 import { useState, useEffect, useRef } from 'react';
 import { ImageUpload, UniqueId } from '../../components/CameraComponents/ImageUpload';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+type RootStackParamList = {
+  ImageDescriptionPage: {
+    imageUrl: string;
+    imageId: string;
+  };
+  Login: undefined;
+  Tabs: undefined;
+
+};
+type CameraPageNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const CameraPage: React.FC = () => {
 
@@ -20,6 +31,8 @@ const CameraPage: React.FC = () => {
     const [cam, setCam] = useState<Camera | null>(null)
 
     const cameraRef = useRef(cam)
+    const navigation = useNavigation<CameraPageNavigationProp>()
+    
 
     useEffect(() => {
         (async () => {
@@ -55,31 +68,28 @@ const CameraPage: React.FC = () => {
 
     const saveImage = async () => {
         if (image) {
-            try{
-                ImageResizer.createResizedImage(
-                    image,
-                    800,
-                    600,
-                    "JPEG",
-                    80,
-                )
-                const id = UniqueId(image || "");
-                console.log("THIS IS THE IMAGE:", image)
+            try {
+                // Your existing image resize and upload logic
+                const id = UniqueId(image);
+                const uploadURL = await ImageUpload(image, id);
 
-                const uploadURL = await ImageUpload(image || "", id);
+                // Add the image URL to the context or state as needed
                 context?.setImageUrls([uploadURL, ...context.imageUrls || []]);
-                
-                
 
-            }catch (error){
-                console.log("Error uplaoding image to firebase:", error)
+                // Navigate to ImageDescriptionPage with imageUrl and imageId
+                navigation.navigate('ImageDescriptionPage', {
+                    imageUrl: uploadURL,
+                    imageId: id,
+                });
+
+            } catch (error) {
+                console.log("Error uploading image to firebase:", error);
             }
             try {
                 await MediaLibrary.createAssetAsync(image);
-                alert("Picture saved to library!")
-                setImage(undefined)
+                // Optionally, inform the user that the picture is saved
             } catch (error) {
-                console.log("Error saving image to library", error)
+                console.log("Error saving image to library", error);
             }
         }
     }

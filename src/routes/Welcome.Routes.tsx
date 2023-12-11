@@ -8,11 +8,18 @@ import { useState, useEffect } from "react"
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
 import ImageDescriptionPage from "../pages/ImageDescriptionPage";
 
+type RootStackParamList = {
+  ImageDescriptionPage: {
+    imageUrl: string;
+    imageId: string;
+  };
+  Login: undefined;
+  Tabs: undefined;
+  // Include other screens as needed
+};
 
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-
-
-const Stack = createNativeStackNavigator();
 
 const WelcomeRoutes: React.FC = () => {
     const [user, setUser] = useState<User | null>(null)

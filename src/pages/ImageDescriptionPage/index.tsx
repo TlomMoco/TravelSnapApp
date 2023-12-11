@@ -1,42 +1,33 @@
 // ImageDescriptionPage.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-// Define the types for the navigation parameters
-type ImageDescriptionPageParams = {
+type RootStackParamList = {
   ImageDescriptionPage: {
     imageUrl: string;
     imageId: string;
   };
+  // ... other screens in the stack
 };
+// Use NativeStackScreenProps to simplify prop typing
+type Props = NativeStackScreenProps<RootStackParamList, 'ImageDescriptionPage'>;
+type ImageDescriptionPageProps = NativeStackScreenProps<RootStackParamList, 'ImageDescriptionPage'>;
 
-// Define the route prop type for this screen
-type ImageDescriptionPageRouteProp = RouteProp<ImageDescriptionPageParams, 'ImageDescriptionPage'>;
-
-// Define the navigation prop type for this screen
-type ImageDescriptionPageNavigationProp = NativeStackNavigationProp<ImageDescriptionPageParams, 'ImageDescriptionPage'>;
-
-// Define the props type for the component
-interface ImageDescriptionPageProps {
-  route: ImageDescriptionPageRouteProp;
-  navigation: ImageDescriptionPageNavigationProp;
-}
-
-const ImageDescriptionPage: React.FC<ImageDescriptionPageProps> = (props) => {
-  // Use the props parameter to get the route and navigation props
-  const { imageUrl, imageId } = props.route.params;
-  const navigation = useNavigation<ImageDescriptionPageNavigationProp>();
+const ImageDescriptionPage: React.FC<Props> = () => {
+  const { params } = useRoute<Props['route']>();
+  const navigation = useNavigation();
+  const { imageUrl, imageId } = params;
+  
 
   const [description, setDescription] = useState('');
-  // Make sure to set the state type explicitly to avoid type issues
   const [tags, setTags] = useState<string[]>([]);
 
   const handleSubmit = async () => {
-    // Logic to upload the description and tags to Firestore
+    // Your submit logic
+    // For example, upload the description and tags to Firestore
     // associated with the imageUrl and imageId
-    // ...
   };
 
   return (
@@ -49,7 +40,7 @@ const ImageDescriptionPage: React.FC<ImageDescriptionPageProps> = (props) => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Add tags..."
+        placeholder="Add tags (comma separated)..."
         value={tags.join(', ')}
         onChangeText={(text) => setTags(text.split(',').map(tag => tag.trim()))}
       />
