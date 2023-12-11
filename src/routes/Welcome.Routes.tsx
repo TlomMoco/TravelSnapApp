@@ -6,6 +6,7 @@ import List from "../pages/SettingsPage";
 import { User, onAuthStateChanged } from "firebase/auth"
 import { useState, useEffect } from "react"
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
+import ImageDescriptionPage from "../pages/ImageDescriptionPage";
 
 
 
@@ -32,12 +33,14 @@ const WelcomeRoutes: React.FC = () => {
             // If user is logged in, the tabsview rendered
             <Stack.Group>
              <Stack.Screen name="Tabs" component={TabsView}  options={{headerShown: false}} ></Stack.Screen>
+             <Stack.Screen name="ImageDescriptionPage" component={ImageDescriptionPage} options={{headerShown: false}}></Stack.Screen>
             </Stack.Group>
           ) : (
             // If no user, loggin is rendered 
             <Stack.Screen name='Login' component={Login} options={{headerShown: false}}/>
           )}
         </Stack.Navigator>
+
       </NavigationContainer>
     );
 }
