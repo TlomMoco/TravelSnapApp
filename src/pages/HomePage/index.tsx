@@ -45,8 +45,6 @@ const HomePage: React.FC = () => {
   }, [context?.setImageUrls]);
 
   const { isDarkMode } = useTheme(); 
-
- 
   const textColor = isDarkMode ? 'text-white' : 'text-black';
   const backgroundColor = isDarkMode ? 'bg-black' : 'bg-white'; 
 
