@@ -35,8 +35,8 @@ const Login = () => {
             const response = await signInWithEmailAndPassword(auth, email, password);
             console.log(response);
         } catch (error) {
-            console.log(error)
-            alert("Sign in failed: " + error)
+            console.log(error);
+            alert("Sign in failed: " + error);
         } finally {
             setLoading(false);
         }
@@ -46,7 +46,9 @@ const Login = () => {
         setLoading(true);
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(response);
+            const uid = response.user.uid;
+
+            console.log("Response:", response, "UID:", uid);
             alert("Check your email")
         } catch (error) {
             console.log(error)

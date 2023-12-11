@@ -6,6 +6,7 @@ import ImageResizer from "react-native-image-resizer"
 import { useState, useEffect, useRef } from 'react';
 import { ImageUpload, UniqueId } from '../../components/CameraComponents/ImageUpload';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 const CameraPage: React.FC = () => {
@@ -17,6 +18,7 @@ const CameraPage: React.FC = () => {
     const [type, setType] = useState<CameraType>(CameraType.back);
     const [flash, setFlash] = useState<FlashMode>(FlashMode.off);
     const [cam, setCam] = useState<Camera | null>(null)
+
     const cameraRef = useRef(cam)
 
     useEffect(() => {
@@ -66,6 +68,7 @@ const CameraPage: React.FC = () => {
 
                 const uploadURL = await ImageUpload(image || "", id);
                 context?.setImageUrls([uploadURL, ...context.imageUrls || []]);
+                
                 
 
             }catch (error){
