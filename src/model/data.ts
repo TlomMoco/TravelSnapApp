@@ -4,6 +4,13 @@ export type ImageInfo = {
     uniqueId: string
 }
 
+type ImageContextType = {
+    currentImage: ImageInfo | null;
+    imageUrls: string[];
+    setCurrentImage: (image: ImageInfo | null) => void;
+    setImageUrls: (urls: string[]) => void;
+}
+
 export type RootStackParamList = {
     ImageDescriptionPage: {
       imageUrl: string;
