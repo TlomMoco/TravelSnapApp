@@ -102,7 +102,6 @@ const CameraPage: React.FC = () => {
             <Button icon="check" color="orange" onPress={saveImage} />
           </View>
         ) : (
-            
           <Button icon="camera" color="orange" onPress={takePicture}></Button>
         )}
       </View>
