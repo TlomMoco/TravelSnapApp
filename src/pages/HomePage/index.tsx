@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
   
     return { width: imageWidth, height: imageHeight };
   };
-  const dimensions = calculateImageDimensions(numColumns, 30)
+  const dimensions = calculateImageDimensions(numColumns, 40)
 
   
   useEffect(() => {
