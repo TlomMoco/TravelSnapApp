@@ -2,21 +2,11 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabsView from "././index";
 import Login from "../pages/LoginPage";
-import List from "../pages/SettingsPage";
 import { User, onAuthStateChanged } from "firebase/auth"
 import { useState, useEffect } from "react"
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
 import ImageDescriptionPage from "../pages/ImageDescriptionPage";
-
-type RootStackParamList = {
-  ImageDescriptionPage: {
-    imageUrl: string;
-    imageId: string;
-  };
-  Login: undefined;
-  Tabs: undefined;
-  // Include other screens as needed
-};
+import { RootStackParamList } from "../model/data";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

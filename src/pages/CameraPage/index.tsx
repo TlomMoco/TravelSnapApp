@@ -2,22 +2,13 @@ import { Text, View, Image } from 'react-native';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
 import * as MediaLibrary from "expo-media-library"
 import Button from '../../components/CameraComponents/Button';
-import ImageResizer from "react-native-image-resizer"
 import { useState, useEffect, useRef } from 'react';
 import { ImageUpload, UniqueId } from '../../components/CameraComponents/ImageUpload';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../model/data';
 
-type RootStackParamList = {
-  ImageDescriptionPage: {
-    imageUrl: string;
-    imageId: string;
-  };
-  Login: undefined;
-  Tabs: undefined;
-
-};
 type CameraPageNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const CameraPage: React.FC = () => {
@@ -46,19 +37,13 @@ const CameraPage: React.FC = () => {
         if(cameraRef) {
             try {
                 const data = await cameraRef.current?.takePictureAsync();
-                /*
-                if(data && data?.uri){
-                    const resizedImage = ImageResizer.createResizedImage(
-                        data?.uri,
-                        800,
-                        600,
-                        "JPEG",
-                        80
-                    )
-                    const resizedUri = (await resizedImage).uri;
-                    */
-                    setImage(data?.uri);
-//                }
+                
+                context?.setCurrentImage({
+                    imageUri: data?.uri || "",
+                    uniqueId: UniqueId(data?.uri || "")
+                })
+
+                setImage(data?.uri);
                 console.log(data)
             } catch (error) {
                 console.log(error)
@@ -113,7 +98,7 @@ const CameraPage: React.FC = () => {
       <View className="absolute bottom-0 left-0 right-0">
         {image ? (
           <View className="flex-row justify-between px-16">
-            <Button icon="retweet" color="orange" onPress={() => setImage(undefined)} />
+            <Button icon="retweet" color="orange" onPress={() => {setImage(undefined); context?.setCurrentImage(null)}} />
             <Button icon="check" color="orange" onPress={saveImage} />
           </View>
         ) : (
@@ -126,12 +111,3 @@ const CameraPage: React.FC = () => {
 };
 
 export default CameraPage;
-
-
-/*
-context?.setCurrentImage({
-    name: id,
-    date: new Date().toISOString(),
-    imageUri: uploadURL || "",
-});
-*/
