@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
           renderItem = {({item}) => (
             <View className="m-0.5 items-center justify-center bg-[#E8DEF8] rounded">
               <Image source={{uri: item}} style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5}}/>
-              <Text className="font-bold p-1">Caption</Text>
+              <Text className="font-bold p-1">{}</Text>
             </View>
           )}
         />
