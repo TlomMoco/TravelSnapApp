@@ -67,7 +67,7 @@ const Login = () => {
         <ImageBackground
             source={require('../../assets/images/BackgroundForestLogin.png')}
             resizeMode="cover"
-            className="flex-1 "
+            className="flex-1"
         >
             <View className="flex-1 justify-center items-center px-6">
                 <View className="w-full items-center mt-10 p-5 bg-white/80 rounded-lg  ">

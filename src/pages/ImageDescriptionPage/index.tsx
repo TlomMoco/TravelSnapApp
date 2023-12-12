@@ -1,6 +1,6 @@
 // ImageDescriptionPage.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../model/data';
@@ -51,42 +51,37 @@ const ImageDescriptionPage: React.FC<Props> = () => {
       };
 
     return (
-        <View style={styles.container}>
-
-            <Image source={{uri: context?.currentImage?.imageUri}} style={{width: 300, height: 350, borderRadius: 5}}/>
-
-            <TextInput
-                style={styles.input}
-                placeholder="Write a description..."
-                value={context?.description}
-                onChangeText={context?.setDescription}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Add tags..."
-                value={context?.tags.join(', ')}
-                onChangeText={(text) => context?.setTags(text.split(',').map(tag => tag.trim()))}
-            />
-            <Button title="Save Details" onPress={handleSubmit} />
-        </View>
+      <ImageBackground 
+        source={require('../../assets/images/BackgroundForestDescription.png')}
+        resizeMode="cover"
+        className="flex-1 "
+      >
+        <View className='flex-1 justify-center items-center px-6'>
+            <View className='w-full items-center mt-10 bg-white/80 rounded-lg'>
+              <Text className='text-2xl m-5'> Image Caption</Text>
+              <Image source={{uri: context?.currentImage?.imageUri}} style={{width: 200, height: 200, borderRadius: 5}}/>
+                <View className='w-full px-8 p-3'>
+                  <TextInput className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
+                    placeholder='Enter description' 
+                    onChangeText={context?.setDescription}>
+                  </TextInput>
+                  <TextInput className='mb-4 p-4 border border-gray-300 rounded-lg'
+                    placeholder='Enter tags (seperat with ",")'
+                    onChangeText={(text) => context?.setTags(text.split(',').map(tag => tag.trim()))}
+                  >  
+                  </TextInput>
+                  <TouchableOpacity
+                    onPress={handleSubmit}
+                    className='mb-4 bg-orange-500 py-2 rounded-lg items-center justify-center'
+                  >
+                    <Text className='text-white text-lg'>Submit</Text>
+                    
+                  </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </ImageBackground>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-    },
-    input: {
-        width: '100%',
-        padding: 10,
-        marginVertical: 10,
-        borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 5,
-    },
-});
 
 export default ImageDescriptionPage;
