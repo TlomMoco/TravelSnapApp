@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../model/data';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { FIREBASE_DB } from '../../firebase/FirebaseConfig';
 
 
@@ -38,6 +38,11 @@ const ImageDescriptionPage: React.FC<Props> = () => {
             // Any additional fields you want to include...
           }, { merge: true }); // Using merge: true to update the document or create it if it doesn't exist
       
+          const updatedDoc = await getDoc(imageDocRef);
+          const updatedTags = updatedDoc.exists() ? updatedDoc.data().tags || [] : [];
+          context?.setTags({...context.tags, [imageUrl]: updatedTags});
+
+
           // If the upload is successful, you can navigate back or show a success message
           console.log('Details saved successfully!');
           // navigation.goBack(); // Uncomment if you want to navigate back after saving
@@ -49,6 +54,8 @@ const ImageDescriptionPage: React.FC<Props> = () => {
           console.error('Error writing document to Firestore:', error);
         }
       };
+
+    const currentImageTags = context?.tags[imageUrl] || [];
 
     return (
       <ImageBackground 
@@ -67,7 +74,13 @@ const ImageDescriptionPage: React.FC<Props> = () => {
                   </TextInput>
                   <TextInput className='mb-4 p-4 border border-gray-300 rounded-lg'
                     placeholder='Enter tags (seperat with ",")'
-                    onChangeText={(text) => context?.setTags(text.split(',').map(tag => tag.trim()))}
+                    onChangeText={(text) => {
+                        const trimmedTags = text.split(', ').map(tag => tag.trim())
+                        context?.setTags({
+                            ...context.tags,
+                            [imageUrl]: trimmedTags
+                        })
+                    }}
                   >  
                   </TextInput>
                   <TouchableOpacity
@@ -75,7 +88,6 @@ const ImageDescriptionPage: React.FC<Props> = () => {
                     className='mb-4 bg-orange-500 py-2 rounded-lg items-center justify-center'
                   >
                     <Text className='text-white text-lg'>Submit</Text>
-                    
                   </TouchableOpacity>
               </View>
             </View>

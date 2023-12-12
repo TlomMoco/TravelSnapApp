@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
   };
   const dimensions = calculateImageDimensions(numColumns, 40)
 
-  const getImages = async () => {
+  const fetchImages = async () => {
     try {
       const imageRef = ref(storage, "images");
       const imageList = await listAll(imageRef);
@@ -43,6 +43,9 @@ const HomePage: React.FC = () => {
         tagsMap[data.url] = data.tags;
       })
 
+      console.log("Urls: ", urls)
+      console.log("tags: ", tagsMap)
+
       context?.setImageUrls(urls);
       context?.setTags(tagsMap);
 
@@ -52,7 +55,7 @@ const HomePage: React.FC = () => {
   }
   
   useEffect(() => {
-    const getImages = async () => {
+   /* const getImages = async () => {
       try{
         const imageRef = ref(storage, "images");
         const imageList = await listAll(imageRef);
@@ -69,10 +72,11 @@ const HomePage: React.FC = () => {
       } catch (error) {
         console.log("Something went wrong when fetching images from firebase:", error)
       }
-    };
-
-    getImages();
-  }, [context?.setImageUrls]);
+    };*/
+    
+    fetchImages();
+    // getImages();
+  }, [context?.setImageUrls, context?.setTags]);
 
   const { isDarkMode } = useTheme(); 
   const textColor = isDarkMode ? "text-white" : "text-black";
@@ -96,7 +100,7 @@ const HomePage: React.FC = () => {
           renderItem = {({item}) => (
             <View className="m-2 items-center justify-center bg-orange-300 rounded">
               <Image source={{uri: item}} style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5}}/>
-              <Text className="font-bold p-5">{}</Text>
+              <Text className="font-bold p-5">Tags: {Array.isArray(context?.tags[item]) ? context?.tags[item].join(', ') : Array.isArray(context?.tags[item]) ? context?.tags[item].join(', ') : 'No tags'}</Text>
             </View>
           )}
         />

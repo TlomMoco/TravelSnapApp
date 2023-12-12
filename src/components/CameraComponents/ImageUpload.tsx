@@ -18,4 +18,4 @@ export const ImageUpload = async (imageUri: string, id: string) => {
     const downloadUrl = await getDownloadURL(storageRef)
 
     return downloadUrl
-}
+};
