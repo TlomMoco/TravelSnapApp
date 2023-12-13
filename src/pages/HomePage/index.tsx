@@ -106,7 +106,7 @@ const HomePage: React.FC = () => {
 
       <View className="items-center justify-center ">
         <TouchableOpacity className="m-2 p-4 bg-orange-500 py-2 rounded-lg items-center justify-center">
-          <Text>Image-Picker</Text>
+          <Text className="text-white font-bold">Image-Picker</Text>
         </TouchableOpacity>
       </View>
 
