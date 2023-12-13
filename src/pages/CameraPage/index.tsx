@@ -56,14 +56,9 @@ const CameraPage: React.FC = () => {
             try {
                 // Your existing image resize and upload logic
                 const id = UniqueId(image);
-                const uploadURL = await ImageUpload(image, id);
-
-                // Add the image URL to the context or state as needed
-                context?.setImageUrls([uploadURL, ...context.imageUrls || []]);
-
                 // Navigate to ImageDescriptionPage with imageUrl and imageId
                 navigation.navigate('ImageDescriptionPage', {
-                    imageUrl: uploadURL,
+                    imageUrl: image,
                     imageId: id,
                 });
 
