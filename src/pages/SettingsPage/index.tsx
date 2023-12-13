@@ -43,10 +43,11 @@ const SettingsPage = ({ navigation }: RouterProps) => {
     }, [setProfilePicture]);
 
     const selectProfilePicture = async () => {
+        /*
         const { status } = await ImagePicker.launchImageLibrary({
             
         });
-
+        */
         if (status !== "granted") {
             alert("Not able to access camera roll due to permission. Give permission to gain access.");
             return;
