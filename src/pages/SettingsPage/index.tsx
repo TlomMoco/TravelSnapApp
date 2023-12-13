@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Switch, Image, Alert } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { useTheme } from "../../providers/ThemeContext";
 import { FIREBASE_AUTH, FIREBASE_STORAGE } from "../../firebase/FirebaseConfig";
-import { ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
 import *  as ImagePicker from "expo-image-picker";
 
 /*
@@ -33,7 +33,13 @@ const SettingsPage = ({ navigation }: RouterProps) => {
           const url = await getDownloadURL(storageRef);
           setProfilePicture(url);
         } catch (error) {
-          console.log("Error fetching profile-picture:", error);
+          if (error as any === 'storage/object-not-found') {
+            // Handle the case where the profile picture does not exist
+            console.log("Profile picture not found, user might not have set it yet.");
+          } else {
+            // Handle other errors
+            console.log("Error fetching profile-picture:", error);
+          }
         }
       }
     };
@@ -45,24 +51,66 @@ const SettingsPage = ({ navigation }: RouterProps) => {
     return status === 'granted';
   };
 
-  const selectProfilePicture =  async () => {
-        const hasPermisson = await getPermission();
-        if (!hasPermisson) {
-          Alert.alert("Permission required");
-          return;
-        }
+  const selectProfilePicture = useCallback(async () => {
+    const hasPermission = await getPermission();
+    if (!hasPermission) {
+      Alert.alert("Permission required");
+      return;
+    }
+  
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+  
+    if (result.canceled || !result.assets || !result.assets[0].uri) {
+      console.log("Image selection canceled or no image selected.");
+      return;
+    }
+  
+    console.log("Image selected:", result.assets[0].uri);
+  
+    const response = await fetch(result.assets[0].uri);
+    const blob = await response.blob();
+    const user = FIREBASE_AUTH.currentUser;
+  
+    if (!user) {
+      console.log("No user is signed in.");
+      return;
+    }
+  
+    const storageRef = ref(FIREBASE_STORAGE, `profilePictures/${user.uid}.jpg`);
+  
+    try {
+      // Attempt to delete the existing image
+      await deleteObject(storageRef);
+      console.log("Existing profile picture deleted.");
+    } catch (error: any) {
+      if ('code' in error && error.code === 'storage/object-not-found') {
+        console.log("Profile picture not found, might not have been set yet.");
+      } else {
+        console.log("Error deleting old profile picture:", error);
+        return;
+      }
+    }
+  
+    try {
+      console.log("Uploading new image...");
+      await uploadBytes(storageRef, blob);
+      console.log("New image uploaded successfully.");
+  
+      console.log("Fetching download URL...");
+      const url = await getDownloadURL(storageRef);
+      setProfilePicture(url);
+      console.log("Profile picture URL set:", url);
+    } catch (error) {
+      console.log("Error uploading new profile picture:", error);
+    }
+  }, []);
 
-        let result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1,1],
-            quality: 1,
-        });
 
-        if (! result.canceled && result.assets[0].uri) {
-           setProfilePicture(result.assets[0].uri);
-        }
-  };
 
   return (
     <View className={`flex-1 justify-center items-center px-4 ${backgroundColor}`}>
