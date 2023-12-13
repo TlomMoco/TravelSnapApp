@@ -22,7 +22,6 @@ const ImageDescriptionPage: React.FC<Props> = () => {
     const navigation = useNavigation();
     const { imageUrl, imageId } = params;
 
-
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState<string[]>([]);
 
@@ -55,7 +54,7 @@ const ImageDescriptionPage: React.FC<Props> = () => {
         }
       };
 
-    const currentImageTags = context?.tags[imageUrl] || [];
+    const currentImageTags = context?.tags || [];
 
     return (
       <ImageBackground 

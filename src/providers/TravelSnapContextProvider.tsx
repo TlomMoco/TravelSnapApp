@@ -5,11 +5,11 @@ type ImageContextType = {
     currentImage: ImageInfo | null;
     imageUrls: string[];
     description: string;
-    tags: Record<string, string[]>;
+    tags: string[];
     setCurrentImage: (image: ImageInfo | null) => void;
     setImageUrls: (urls: string[]) => void;
     setDescription: (desc: string) => void;
-    setTags: (tagsMap: Record<string, string[]>) => void;
+    setTags: (tagsMap: string[]) => void;
 };
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined)
@@ -20,7 +20,7 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
     const [currentImage, setCurrentImage] = useState<ImageInfo | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [description, setDescription] = useState('');
-    const [tags, setTags] = useState<Record<string, string[]>>({});
+    const [tags, setTags] = useState<string[]>([]);
 
     return(
         <ImageContext.Provider

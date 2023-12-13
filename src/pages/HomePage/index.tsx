@@ -38,10 +38,8 @@ const HomePage: React.FC = () => {
       );
 
       const urls = imageData.map((data) => data.url);
-      const tagsMap: Record<string, string[]> = {};
-      imageData.forEach((data) => {
-        tagsMap[data.url] = data.tags;
-      })
+      const tagsMap = imageData.map((data) => data.tags).flat();
+
 
       console.log("Urls: ", urls)
       console.log("tags: ", tagsMap)
@@ -100,7 +98,7 @@ const HomePage: React.FC = () => {
           renderItem = {({item}) => (
             <View className="m-2 items-center justify-center bg-orange-300 rounded">
               <Image source={{uri: item}} style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5}}/>
-              <Text className="font-bold p-5">Tags: {Array.isArray(context?.tags[item]) ? context?.tags[item].join(', ') : Array.isArray(context?.tags[item]) ? context?.tags[item].join(', ') : 'No tags'}</Text>
+              <Text className="font-bold p-5">Tags: {Array.isArray(context?.tags) ? context?.tags.join(", ") : "No tags"}</Text>
             </View>
           )}
         />
