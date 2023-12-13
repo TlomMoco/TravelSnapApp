@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "../../providers/ThemeContext";
 import { FIREBASE_AUTH, FIREBASE_STORAGE } from "../../firebase/FirebaseConfig";
 import { ref, getDownloadURL } from "firebase/storage";
-import ImagePicker from "react-native-image-picker";
+import * as ImagePicker from "react-native-image-picker";
 
 type RouterProps = {
     navigation: NavigationProp<any, any>;
@@ -42,6 +42,16 @@ const SettingsPage = ({ navigation }: RouterProps) => {
         fetchUserInfo();
     }, [setProfilePicture]);
 
+    const selectProfilePicture = async () => {
+        const { status } = await ImagePicker.launchImageLibrary({
+            
+        });
+
+        if (status !== "granted") {
+            alert("Not able to access camera roll due to permission. Give permission to gain access.");
+            return;
+        }
+    }
 
     return (
         <View className={`flex-1 justify-center items-center px-4 ${backgroundColor}`}>
