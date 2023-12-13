@@ -34,9 +34,14 @@ const ImageDescriptionPage: React.FC<Props> = () => {
           const imageDocRef = doc(FIREBASE_DB, 'images', imageId);
           const downloadURL = await ImageUpload(localUri, imageId);
 
+          context?.setCurrentImage({
+            imageUri: downloadURL,
+            uniqueId: imageId,
+          });
+
           await setDoc(imageDocRef, {
             image: imageId,
-            imageUrl: imageUrl,
+            imageUrl: downloadURL,
             description: context?.description || '',
             tags: context?.tags,
           }, { merge: true });
