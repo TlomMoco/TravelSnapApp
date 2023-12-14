@@ -7,8 +7,6 @@ import { UseImageContext } from '../../providers/TravelSnapContextProvider';
 import { ImageUpload } from '../../components/CameraComponents/ImageUpload';
 import { ActivityIndicator } from 'react-native';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ImageDescriptionPage'>;
-
 const ImageDescriptionPage: React.FC<Props> = () => {
 
     // Get context
@@ -21,14 +19,6 @@ const ImageDescriptionPage: React.FC<Props> = () => {
     const localUri = params.imageUrl; 
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        context?.getCurrentDescription();
-    },[]) 
-
-    const handleSubmit = async () => {
-      setLoading(true);
-        try {
-          const downloadURL = await ImageUpload(localUri, imageId); 
 
           context?.setCurrentImage({
             imageUri: downloadURL,
@@ -79,5 +69,3 @@ const ImageDescriptionPage: React.FC<Props> = () => {
     </ImageBackground>
     );
 };
-
-export default ImageDescriptionPage;
