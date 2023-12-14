@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Switch, Image, Alert } from "react-native
 import { NavigationProp } from "@react-navigation/native";
 import { useTheme } from "../../providers/ThemeContext";
 import { FIREBASE_AUTH, FIREBASE_STORAGE } from "../../firebase/FirebaseConfig";
-import { ref, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes} from "firebase/storage";
 import *  as ImagePicker from "expo-image-picker";
 
 /*
@@ -17,135 +17,126 @@ type RouterProps = {
 
 const SettingsPage = ({ navigation }: RouterProps) => {
   const { isDarkMode, toggleDarkMode } = useTheme();
-  const textColor = isDarkMode ? 'text-white' : 'text-black';
-  const backgroundColor = isDarkMode ? 'bg-black' : 'bg-white'; 
+  const textStyle = isDarkMode ? 'text-white' : 'text-black';
+  const backgroundStyle = isDarkMode ? 'bg-black' : 'bg-white'; 
 
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const [userProfilePicture, setUserProfilePicture] = useState<string | null>(null);
+  const currentUser = FIREBASE_AUTH.currentUser;
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const user = FIREBASE_AUTH.currentUser;
-      if (user) {
-        setUserEmail(user.email);
-        const storageRef = ref(FIREBASE_STORAGE, `profilePictures/${user.uid}.jpg`);
+    const retrieveUserProfile = async () => {
+      if (currentUser) {
+        setUserEmail(currentUser.email);
+        const storageRef = ref(FIREBASE_STORAGE, `profilePictures/${currentUser.uid}.jpg`);
         try {
           const url = await getDownloadURL(storageRef);
-          setProfilePicture(url);
+          setUserProfilePicture(url);
         } catch (error) {
-          if (error as any === 'storage/object-not-found') {
-            // Handle the case where the profile picture does not exist
-            console.log("Profile picture not found, user might not have set it yet.");
+          if (error === 'storage/object-not-found') {
+            console.log("No picture or not set yet");
           } else {
-            // Handle other errors
-            console.log("Error fetching profile-picture:", error);
+            console.log("Error trying to get user profile picture:", error);
           }
         }
       }
     };
-    fetchUserInfo();
+    retrieveUserProfile();
   }, []);
 
-  const getPermission = async () => {
+  const getLibraryAccess= async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     return status === 'granted';
   };
 
+
   const selectProfilePicture = useCallback(async () => {
-    const hasPermission = await getPermission();
+    const currentUser = FIREBASE_AUTH.currentUser as any; 
+    const hasPermission = await getLibraryAccess();
+    const storageRef = ref(FIREBASE_STORAGE, `profilePictures/${currentUser.uid}.jpg`);
+
     if (!hasPermission) {
-      Alert.alert("Permission required");
+      Alert.alert("Need permission for access to the library");
       return;
     }
-  
-    let result = await ImagePicker.launchImageLibraryAsync({
+    
+    let imageResult = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
     });
   
-    if (result.canceled || !result.assets || !result.assets[0].uri) {
-      console.log("Image selection canceled or no image selected.");
+    if (imageResult.canceled || !imageResult.assets || !imageResult.assets[0].uri) {
+        console.log("No seleection or canceled or no image selected.")
       return;
     }
   
-    console.log("Image selected:", result.assets[0].uri);
+    console.log("Profile image:", imageResult.assets[0].uri);
   
-    const response = await fetch(result.assets[0].uri);
+    const response = await fetch(imageResult.assets[0].uri);
     const blob = await response.blob();
-    const user = FIREBASE_AUTH.currentUser;
-  
-    if (!user) {
-      console.log("No user is signed in.");
-      return;
-    }
-  
-    const storageRef = ref(FIREBASE_STORAGE, `profilePictures/${user.uid}.jpg`);
+
   
     try {
-      // Attempt to delete the existing image
-      await deleteObject(storageRef);
-      console.log("Existing profile picture deleted.");
-    } catch (error: any) {
-      if ('code' in error && error.code === 'storage/object-not-found') {
-        console.log("Profile picture not found, might not have been set yet.");
-      } else {
-        console.log("Error deleting old profile picture:", error);
-        return;
-      }
-    }
-  
-    try {
-      console.log("Uploading new image...");
+      console.log("Loading profile image");
       await uploadBytes(storageRef, blob);
-      console.log("New image uploaded successfully.");
-  
-      console.log("Fetching download URL...");
+      console.log("Upload DONE");
       const url = await getDownloadURL(storageRef);
-      setProfilePicture(url);
-      console.log("Profile picture URL set:", url);
+      setUserProfilePicture(url);
+      console.log("Profile image DONE, url:", url);
     } catch (error) {
-      console.log("Error uploading new profile picture:", error);
+      console.log("Error with setting profile:", error);
     }
   }, []);
 
 
 
   return (
-    <View className={`flex-1 justify-center items-center px-4 ${backgroundColor}`}>
-      <View className="mt-4">
-        {userEmail && (
-          <Text className={`text-lg font-bold ${textColor}`}>{`Hello ${userEmail.split("@")[0]}!`}</Text>
-        )}
-
-        {profilePicture && (
-          <Image source={{ uri: profilePicture }} style={{ width: 100, height: 100, borderRadius: 50 }} />
-        )}
-
+    <View className={`flex-1 p-4 justify-between ${backgroundStyle}`}>
+      <View className="w-full">
+        {/* Padding at the top for spacing */}
+        <View className="pt-12" />
+  
+        <View className="flex-row items-center justify-start w-full px-4">
+          {userProfilePicture ? (
+            <Image source={{ uri: userProfilePicture }} className="w-24 h-24 rounded-full" />
+          ) : (
+            <View className="w-24 h-24 rounded-full bg-gray-300 justify-center items-center">
+              <Text className="text-xl text-white">No image</Text>
+            </View>
+          )}
+  
+          {userEmail && (
+            <Text className={`text-lg font-bold ml-4 ${textStyle}`}>{`Hello ${userEmail.split("@")[0]}`}</Text>
+          )}
+        </View>
+  
         <TouchableOpacity
-          className="bg-blue-500 mt-4 py-2 rounded-lg items-center justify-center"
+          className="bg-orange-500 py-5 mt-10 mb-5 rounded-lg w-full"
           onPress={selectProfilePicture}
         >
-          <Text className={`${textColor} font-bold`}>Add profile picture</Text>
+          <Text className="text-white font-bold text-center ${textStyle}">Add Image</Text>
         </TouchableOpacity>
+  
+        <View className="flex-row items-center justify-between px-4 py-10">
+          <Text className={`text-lg font-bold ${textStyle}`}>Dark Mode</Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#151512" }}
+            thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleDarkMode}
+            value={isDarkMode}
+          />
+        </View>
       </View>
-
-      <View className="flex-row items-center justify-between w-full px-4 py-2">
-        <Text className={`text-gray-800 font-bold ${textColor}`}>Dark Mode</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "#151512" }}
-          thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
-          onValueChange={toggleDarkMode}
-          value={isDarkMode}
-        />
-      </View>
-
+  
+      {/* Position sign out at the bottom */}
       <TouchableOpacity
-        className="bg-red-500 mt-4 py-2 rounded-lg items-center justify-center"
+        className="bg-red-500 py-2 px-4 rounded-lg w-full mb-4"
         onPress={() => FIREBASE_AUTH.signOut()}
       >
-        <Text className="text-white font-bold m-2 px-2 rounded-lg items-center justify-center">Sign out</Text>
+        <Text className= "text-white font-bold text-center">Sign Out</Text>
       </TouchableOpacity>
     </View>
   );
