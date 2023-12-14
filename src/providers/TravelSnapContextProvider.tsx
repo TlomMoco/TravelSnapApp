@@ -4,11 +4,11 @@ import { ImageInfo } from "../model/data";
 type ImageContextType = {
     currentImage: ImageInfo | null;
     imageUrls: string[];
-    description: string;
+    description: {[url: string]: string;}[];
     tags: string[];
     setCurrentImage: (image: ImageInfo | null) => void;
     setImageUrls: (urls: string[]) => void;
-    setDescription: (desc: string) => void;
+    setDescription: (description: {[url: string]: string}[]) => void;
     setTags: (tagsMap: string[]) => void;
 };
 
@@ -19,7 +19,7 @@ export const UseImageContext = () => useContext<ImageContextType | undefined>(Im
 const TravelContextProvider = ({children} : {children: ReactNode}) => {
     const [currentImage, setCurrentImage] = useState<ImageInfo | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState<{[url: string]: string}[]>([]);
     const [tags, setTags] = useState<string[]>([]);
 
     return(

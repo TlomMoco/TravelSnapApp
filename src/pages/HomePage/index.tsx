@@ -31,21 +31,14 @@ const HomePage: React.FC = () => {
         imageList.items.map(async (imageRef) => {
           const url = await getDownloadURL(imageRef);
           const docs = await getDoc(doc(FIREBASE_DB, "images", imageRef.name));
-          const tags = docs.exists() ? docs.data().tags || [] : [];
 
-          return { url, tags }
+          return { url }
         })
       );
-
       const urls = imageData.map((data) => data.url);
-      const tagsMap = imageData.map((data) => data.tags).flat();
 
-
-      console.log("Urls: ", urls)
-      console.log("tags: ", tagsMap)
-
+      console.log("Urls: ", urls);
       context?.setImageUrls(urls);
-      context?.setTags(tagsMap);
 
     } catch (error) {
       console.log("Something went wrong fetching images from db:", error)
@@ -74,12 +67,16 @@ const HomePage: React.FC = () => {
     
     fetchImages();
     // getImages();
-  }, [context?.setImageUrls, context?.setTags]);
+  }, [context?.setImageUrls]);
 
   const { isDarkMode } = useTheme(); 
   const textColor = isDarkMode ? "text-white" : "text-black";
   const backgroundColor = isDarkMode ? "bg-black" : "bg-white"; 
   const placeholderColor = isDarkMode ? "#FFF" : "gray"
+
+  const descriptions: { [url: string]: string }[] = context?.description || [];
+
+  console.log(descriptions)
 
   return (
     <View className={`flex-1 items-center justify-center ${backgroundColor}`}>
@@ -98,7 +95,12 @@ const HomePage: React.FC = () => {
           renderItem = {({item}) => (
             <View className="m-2 items-center justify-center bg-orange-300 rounded">
               <Image source={{uri: item}} style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5}}/>
-              <Text className="font-bold p-5">Tags: {Array.isArray(context?.tags) ? context?.tags.join(", ") : "No tags"}</Text>
+              <Text className="font-bold p-5">Description:</Text>
+              {descriptions
+                .filter((desc) => desc[item]) // Filter descriptions based on the item
+                .map((desc) => (
+                  <Text key={item} style={{ marginBottom: 5 }}>{desc[item]}</Text>
+                ))}
             </View>
           )}
         />
