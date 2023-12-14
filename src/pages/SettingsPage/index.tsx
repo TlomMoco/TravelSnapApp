@@ -98,7 +98,7 @@ const SettingsPage = ({ navigation }: RouterProps) => {
         {/* Padding at the top for spacing */}
         <View className="pt-12" />
   
-        <View className="flex-row items-center justify-start w-full px-4">
+        <View className="flex-row items-center border-b-4 border-orange-500 py-4 justify-start w-full px-4">
           {userProfilePicture ? (
             <Image source={{ uri: userProfilePicture }} className="w-24 h-24 rounded-full" />
           ) : (
@@ -108,15 +108,15 @@ const SettingsPage = ({ navigation }: RouterProps) => {
           )}
   
           {userEmail && (
-            <Text className={`text-3rxl font-bold ml-10 ${textStyle}`}>{`Hello ${userEmail.split("@")[0]}`}</Text>
+            <Text className={`text-3xl font-bold ml-10 ${textStyle}`}>{`Hello ${userEmail.split("@")[0]}!`}</Text>
           )}
         </View>
   
         <TouchableOpacity
-          className="bg-orange-500 py-5 mt-10 mb-5 rounded-lg w-full"
+          className="bg-orange-500 px-4 mt-10 py-2 mb-4 rounded-lg w-full"
           onPress={selectProfilePicture}
         >
-          <Text className="text-white font-bold text-center ${textStyle}">Add Image</Text>
+          <Text className="text-white font-bold text-center">Add Image</Text>
         </TouchableOpacity>
   
         <View className="flex-row items-center justify-between px-4 py-10">
