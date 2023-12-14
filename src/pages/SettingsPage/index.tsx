@@ -108,7 +108,7 @@ const SettingsPage = ({ navigation }: RouterProps) => {
           )}
   
           {userEmail && (
-            <Text className={`text-lg font-bold ml-4 ${textStyle}`}>{`Hello ${userEmail.split("@")[0]}`}</Text>
+            <Text className={`text-3rxl font-bold ml-10 ${textStyle}`}>{`Hello ${userEmail.split("@")[0]}`}</Text>
           )}
         </View>
   
