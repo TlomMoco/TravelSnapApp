@@ -76,7 +76,7 @@ const HomePage: React.FC = () => {
 
   const descriptions: { [url: string]: string }[] = context?.description || [];
 
-  console.log(descriptions)
+  console.log("Desc", descriptions)
 
   return (
     <View className={`flex-1 items-center justify-center ${backgroundColor}`}>
