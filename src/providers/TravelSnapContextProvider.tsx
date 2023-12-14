@@ -40,7 +40,7 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
             }
         return "";
     }
-
+    
     const setFirestoreValues = async (desc: string) => {
         setDescription(desc)
 
