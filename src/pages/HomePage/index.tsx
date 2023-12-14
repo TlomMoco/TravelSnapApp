@@ -31,8 +31,9 @@ const HomePage: React.FC = () => {
         imageList.items.map(async (imageRef) => {
           const url = await getDownloadURL(imageRef);
           const docs = await getDoc(doc(FIREBASE_DB, "images", imageRef.name));
+          const descriptions = docs.exists() ? docs.data().description || "" : "";
 
-          return { url }
+          return { url, descriptions }
         })
       );
       const urls = imageData.map((data) => data.url);
@@ -45,28 +46,8 @@ const HomePage: React.FC = () => {
     }
   }
   
-  useEffect(() => {
-   /* const getImages = async () => {
-      try{
-        const imageRef = ref(storage, "images");
-        const imageList = await listAll(imageRef);
-
-        const urls = await Promise.all(
-          imageList.items.map(async (imageRef) => {
-            const url = await getDownloadURL(imageRef);
-            return url
-          })
-        );
-        
-        context?.setImageUrls(urls)
-
-      } catch (error) {
-        console.log("Something went wrong when fetching images from firebase:", error)
-      }
-    };*/
-    
+  useEffect(() => {    
     fetchImages();
-    // getImages();
   }, [context?.setImageUrls]);
 
   const { isDarkMode } = useTheme(); 
