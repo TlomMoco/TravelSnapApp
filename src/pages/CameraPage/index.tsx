@@ -3,7 +3,7 @@ import { Camera, CameraType, FlashMode } from 'expo-camera';
 import * as MediaLibrary from "expo-media-library"
 import Button from '../../components/CameraComponents/Button';
 import { useState, useEffect, useRef } from 'react';
-import { ImageUpload, UniqueId } from '../../components/CameraComponents/ImageUpload';
+import { UniqueId } from '../../components/CameraComponents/ImageUpload';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -23,7 +23,7 @@ const CameraPage: React.FC = () => {
 
     const cameraRef = useRef(cam)
     const navigation = useNavigation<CameraPageNavigationProp>()
-    
+
 
     useEffect(() => {
         (async () => {

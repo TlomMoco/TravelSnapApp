@@ -23,8 +23,6 @@ const ImageDescriptionPage: React.FC<Props> = () => {
     const { imageId, imageUrl } = params;
     const localUri = params.imageUrl; 
 
-    const [description, setDescription] = useState('');
-    const [tags, setTags] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
 
 
@@ -42,13 +40,8 @@ const ImageDescriptionPage: React.FC<Props> = () => {
           await setDoc(imageDocRef, {
             image: imageId,
             imageUrl: downloadURL,
-            description: context?.description || '',
-            tags: context?.tags,
+            description: context?.description || "",
           }, { merge: true });
-
-          const updatedDoc = await getDoc(imageDocRef);
-          const updatedTags = updatedDoc.exists() ? updatedDoc.data().tags || [] : [];
-          context?.setTags({ ...context.tags, [imageUrl]: updatedTags });
 
           console.log('Details saved successfully!');
           navigation.goBack();
@@ -79,18 +72,9 @@ const ImageDescriptionPage: React.FC<Props> = () => {
               <TextInput
                 className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
                 placeholder="Enter description"
-                onChangeText={context?.setDescription}
+                onChangeText={(text) => context?.setDescription([{url: imageUrl, description: text}])}
               />
-              <TextInput
-                className="mb-4 p-4 border border-gray-300 rounded-lg" placeholder="Enter tags (separate with ',')"
-                onChangeText={(text) => {
-                  const trimmedTags = text.split(',').map((tag) => tag.trim());
-                  context?.setTags({
-                    ...context.tags,
-                    [imageUrl]: trimmedTags,
-                  });
-                }}
-              />
+ 
               <TouchableOpacity
                 onPress={handleSubmit}className="mb-4 bg-orange-500 py-2 rounded-lg flex items-center justify-center">
                 <Text className="text-white text-lg">Submit</Text>
@@ -104,3 +88,16 @@ const ImageDescriptionPage: React.FC<Props> = () => {
 };
 
 export default ImageDescriptionPage;
+
+/*
+<TextInput
+className="mb-4 p-4 border border-gray-300 rounded-lg" placeholder="Enter tags (separate with ',')"
+onChangeText={(text) => {
+  const trimmedTags = text.split(',').map((tag) => tag.trim());
+  context?.setTags({
+    ...context.tags,
+    [imageUrl]: trimmedTags,
+  });
+}}
+/>
+*/
