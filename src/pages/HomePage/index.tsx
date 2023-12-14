@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, Dimensions, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Image, Dimensions, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
 import { UseImageContext } from '../../providers/TravelSnapContextProvider';
 import { useTheme } from '../../providers/ThemeContext'; 
@@ -9,6 +9,12 @@ import { FIREBASE_DB } from '../../firebase/FirebaseConfig';
 const HomePage: React.FC = () => {
   const context = UseImageContext();
   const storage = getStorage();
+
+  const { isDarkMode } = useTheme(); 
+  const textColor = isDarkMode ? "text-white" : "text-black";
+  const backgroundColor = isDarkMode ? "bg-black" : "bg-white"; 
+  const placeholderColor = isDarkMode ? "#FFF" : "gray"
+
   const numColumns: number = 1
 
   const calculateImageDimensions = (columns: number, spacing: number): { width: number; height: number } => {
@@ -31,33 +37,35 @@ const HomePage: React.FC = () => {
         imageList.items.map(async (imageRef) => {
           const url = await getDownloadURL(imageRef);
           const docs = await getDoc(doc(FIREBASE_DB, "images", imageRef.name));
-          const descriptions = docs.exists() ? docs.data().description || "" : "";
+          const description = docs.exists() ? docs.data().description || "" : "";
 
-          return { url, descriptions }
+          return { url, description }
         })
       );
-      const urls = imageData.map((data) => data.url);
+      const urls = imageData.map((data) => data.url)
+      const description = imageData.map((data) => data.description);
 
-      console.log("Urls: ", urls);
       context?.setImageUrls(urls);
 
+
+      
+
+      if(description.length > 0) {
+        context?.setDescription(description[0])
+      }
+      console.log("Urls: ", urls)
     } catch (error) {
       console.log("Something went wrong fetching images from db:", error)
     }
   }
-  
-  useEffect(() => {    
+
+
+  useEffect(() => {
+
     fetchImages();
   }, [context?.setImageUrls]);
 
-  const { isDarkMode } = useTheme(); 
-  const textColor = isDarkMode ? "text-white" : "text-black";
-  const backgroundColor = isDarkMode ? "bg-black" : "bg-white"; 
-  const placeholderColor = isDarkMode ? "#FFF" : "gray"
-
-  const descriptions: { [url: string]: string }[] = context?.description || [];
-
-  console.log("Desc", descriptions)
+  
 
   return (
     <View className={`flex-1 items-center justify-center ${backgroundColor}`}>
@@ -68,23 +76,17 @@ const HomePage: React.FC = () => {
       </View>
 
       <View className="flex-1 ">
-        <FlatList
-          key={numColumns.toString()}
-          data = {context?.imageUrls}
-          keyExtractor = {(url) => url}
-          numColumns={numColumns}
-          renderItem = {({item}) => (
-            <View className="m-2 items-center justify-center bg-orange-300 rounded">
-              <Image source={{uri: item}} style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5}}/>
-              <Text className="font-bold p-5">Description:</Text>
-              {descriptions
-                .filter((desc) => desc[item]) // Filter descriptions based on the item
-                .map((desc) => (
-                  <Text key={item} style={{ marginBottom: 5 }}>{desc[item]}</Text>
-                ))}
+      <ScrollView>
+          {context?.imageUrls.map((data, index) => (
+            <View key={index} className="m-2 items-center justify-center bg-orange-300 rounded">
+              <Image
+                source={{ uri: data }}
+                style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
+              />
+              <Text className="font-bold p-5">{context.description}</Text>
             </View>
-          )}
-        />
+          ))}
+        </ScrollView>
       </View>
 
       <View className="items-center justify-center ">
