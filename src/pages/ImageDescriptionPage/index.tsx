@@ -11,10 +11,8 @@ import { ActivityIndicator } from 'react-native';
 import *  as ImagePicker from "expo-image-picker";
 
 
-
 // Use NativeStackScreenProps to simplify prop typing
 type Props = NativeStackScreenProps<RootStackParamList, 'ImageDescriptionPage'>;
-
 
 
 const ImageDescriptionPage: React.FC<Props> = () => {
@@ -27,7 +25,6 @@ const ImageDescriptionPage: React.FC<Props> = () => {
   const localUri = params.imageUrl; 
   const [loading, setLoading] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(imageUrl);
-
 
   const handleSubmit = async () => {
     setLoading(true);
