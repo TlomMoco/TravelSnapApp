@@ -40,6 +40,7 @@ const HomePage: React.FC = () => {
 
       const imageData = await Promise.all(
         imageList.items.map(async (imageRef) => {
+          console.log("ImageRefName:", imageRef.name);
           const url = await getDownloadURL(imageRef);
           const docs = await getDoc(doc(FIREBASE_DB, "images", imageRef.name));
           const description = docs.exists() ? docs.data().description || "" : "";
@@ -47,11 +48,11 @@ const HomePage: React.FC = () => {
           return { url, description }
         })
       );
-      const urls = imageData.map((data) => data.url)
       const description = imageData.map((data) => data.description);
+      const urls = imageData.map((data) => data.url)
 
-      context?.setImageUrls(urls);
       context?.setDescription(description)
+      context?.setImageUrls(urls);
 
       console.log(description)
       console.log("Urls: ", urls)
@@ -63,9 +64,10 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     fetchImages();
-  }, [context?.setImageUrls]);
+    
+  }, [context?.currentImage, context?.location]);
 
-  
+
 
   return (
     <View className={`flex-1 items-center justify-center ${backgroundColor}`}>
