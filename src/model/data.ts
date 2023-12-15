@@ -19,7 +19,7 @@ export type RootStackParamList = {
     };
     ImageDetailPage: {
       imageUrl: string;
-      imageId: string;
+      description: string;
     };
     Login: undefined;
     Tabs: undefined;
