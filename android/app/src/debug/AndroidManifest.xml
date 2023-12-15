@@ -4,4 +4,13 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application android:usesCleartextTraffic="true" tools:targetApi="28" tools:ignore="GoogleAppIndexingWarning" tools:replace="android:usesCleartextTraffic" />
+
+    <application>
+         <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBdguc8MUey4T_BEutwTTAWF_e5t9OoG_o"/> <!-- Your key goes here. -->
+
+        <!-- You will also only need to add this uses-library tag -->
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+    </application>
 </manifest>

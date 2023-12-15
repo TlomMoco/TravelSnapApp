@@ -40,11 +40,10 @@ const CameraPage: React.FC = () => {
                 
                 context?.setCurrentImage({
                     imageUri: data?.uri || "",
-                    uniqueId: UniqueId(data?.uri || "")
+                    uniqueId: UniqueId(data?.uri || ""),
                 })
 
                 setImage(data?.uri);
-                console.log(data)
             } catch (error) {
                 console.log(error)
             }

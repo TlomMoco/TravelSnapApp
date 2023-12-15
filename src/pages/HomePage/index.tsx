@@ -57,8 +57,6 @@ const HomePage: React.FC = () => {
       context?.setImageUrls(urls);
       context?.setLocation(locations)
 
-      console.log(description)
-      console.log("Urls: ", urls)
     } catch (error) {
       console.log("Something went wrong fetching images from db:", error)
     }

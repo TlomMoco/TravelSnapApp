@@ -3,7 +3,7 @@ import * as Location from 'expo-location';
 export type ImageInfo = {
     imageUri: string; 
     uniqueId: string;
-    location?: number;
+    location?: Location.LocationObject[];
 }
 
 type ImageContextType = {

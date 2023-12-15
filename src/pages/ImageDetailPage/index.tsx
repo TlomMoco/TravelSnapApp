@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, ScrollView, ImageBackground} from 'react-native';
 import { RootStackParamList } from '../../model/data';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import Mapview, { Marker } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ImageDetailPage'>;
@@ -10,6 +10,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ImageDetailPage'>;
 const ImageDetailPage = ({route} : Props) => {
   const { imageUrl, description, location } = route.params; 
   const coordinates = location?.coords;
+
+  console.log("This is the location: ", location)
 
 
   return (
@@ -21,9 +23,8 @@ const ImageDetailPage = ({route} : Props) => {
             <Image source={{ uri: imageUrl }} style={{ width: 300, height: 350, borderRadius: 5 }}/>
             <Text className="px-3 py-2 text-stone-500 italic border-b border-dashed">Description:</Text>
             <Text className="font-bold p-3 py-5">{description}</Text>
-            {coordinates && (
-              <Mapview className="h-50 w-full rounded-lg mt-5"
-                initialRegion={{
+            <MapView style={{ height: 200, width: '100%', borderRadius: 10, marginTop: 20 }}
+                initialRegion={coordinates &&{
                   latitude: coordinates.latitude,
                   longitude: coordinates.longitude,
                   latitudeDelta: 0.01,
@@ -32,14 +33,15 @@ const ImageDetailPage = ({route} : Props) => {
               >
                 <Marker
                   coordinate={{
-                    latitude: coordinates.latitude,
-                    longitude: coordinates.longitude,
-                  }}
-                  title={"Image location"}
-                  description={description}
-                />
-              </Mapview>
-            )}
+                    latitude: coordinates?.latitude || 0,
+                    longitude: coordinates?.longitude || 0,
+                }}
+                  title={"title"}
+                  description={"description"
+                }
+              />
+              </MapView>
+            
           </View>
         </View>
       </ScrollView>
