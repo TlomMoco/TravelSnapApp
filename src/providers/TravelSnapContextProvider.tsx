@@ -2,17 +2,19 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { ImageInfo } from "../model/data";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../firebase/FirebaseConfig";
+import * as Location from 'expo-location';
 
 type ImageContextType = {
     currentImage: ImageInfo | null;
     imageUrls: string[];
-    description: string[];
+
     setCurrentImage: (image: ImageInfo | null) => void;
     setImageUrls: (urls: string[]) => void;
     setDescription: (desc: string[]) => void;
     getCurrentDescription: () => void;
-    setFirestoreValues: (desc: string[]) => void;
+
 };
+
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined)
 
@@ -21,7 +23,7 @@ export const UseImageContext = () => useContext<ImageContextType | undefined>(Im
 const TravelContextProvider = ({children} : {children: ReactNode}) => {
     const [currentImage, setCurrentImage] = useState<ImageInfo | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
-    const [description, setDescription] = useState<string[]>([]);
+
 
     const getCurrentDescription = async () => {
             if(currentImage){
@@ -52,6 +54,7 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
                     image: imageId,
                     imageUrl: currentImage.imageUri,
                     description: desc || '',
+                    location: currentImage.location,
                 }, { merge: true });
 
                 console.log('Details saved successfully!');
@@ -67,11 +70,13 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
                 currentImage,
                 imageUrls,
                 description,
+                location,
                 setCurrentImage,
                 setImageUrls,
                 setDescription,
                 getCurrentDescription,
                 setFirestoreValues,
+                setLocation,
             }}
         >
             {children}

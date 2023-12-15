@@ -2,8 +2,7 @@
 export type ImageInfo = {
     imageUri: string; 
     uniqueId: string;
-    latitude?: number | null;
-    longitude?: number | null;
+    location?: number | null;
 }
 
 type ImageContextType = {
