@@ -141,7 +141,7 @@ const ImageDescriptionPage: React.FC<Props> = () => {
               <TextInput
                   className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
                   placeholder="Enter description"
-                  onChangeText={(text) => context?.setDescription(text)}
+                  onChangeText={(text) => context?.setDescription([text])}
               />
               <TouchableOpacity
                   onPress={handleSubmit}className="mb-4 bg-orange-500 py-2 rounded-lg flex items-center justify-center">

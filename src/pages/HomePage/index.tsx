@@ -46,13 +46,9 @@ const HomePage: React.FC = () => {
       const description = imageData.map((data) => data.description);
 
       context?.setImageUrls(urls);
+      context?.setDescription(description)
 
-
-      
-
-      if(description.length > 0) {
-        context?.setDescription(description[0])
-      }
+      console.log(description)
       console.log("Urls: ", urls)
     } catch (error) {
       console.log("Something went wrong fetching images from db:", error)
@@ -61,7 +57,6 @@ const HomePage: React.FC = () => {
 
 
   useEffect(() => {
-
     fetchImages();
   }, [context?.setImageUrls]);
 
@@ -84,7 +79,11 @@ const HomePage: React.FC = () => {
                 style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
               />
               <Text className="px-3 py-2 text-stone-500 italic border-b border-dashed">Description:</Text>
-              <Text className="font-bold p-3 py-5">{context.description}</Text>
+              <Text className="font-bold p-3 py-5">
+                {
+                  context.description[index]
+                }
+                </Text>
             </View>
           ))}
         </ScrollView>

@@ -6,12 +6,12 @@ import { FIREBASE_DB } from "../firebase/FirebaseConfig";
 type ImageContextType = {
     currentImage: ImageInfo | null;
     imageUrls: string[];
-    description: string;
+    description: string[];
     setCurrentImage: (image: ImageInfo | null) => void;
     setImageUrls: (urls: string[]) => void;
-    setDescription: (desc: string) => void;
+    setDescription: (desc: string[]) => void;
     getCurrentDescription: () => void;
-    setFirestoreValues: (desc: string) => void;
+    setFirestoreValues: (desc: string[]) => void;
 };
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined)
@@ -21,7 +21,7 @@ export const UseImageContext = () => useContext<ImageContextType | undefined>(Im
 const TravelContextProvider = ({children} : {children: ReactNode}) => {
     const [currentImage, setCurrentImage] = useState<ImageInfo | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState<string[]>([]);
 
     const getCurrentDescription = async () => {
             if(currentImage){
@@ -41,7 +41,7 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
         return "";
     }
     
-    const setFirestoreValues = async (desc: string) => {
+    const setFirestoreValues = async (desc: string[]) => {
         setDescription(desc)
 
         if(currentImage){
