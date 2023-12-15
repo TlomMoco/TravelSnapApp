@@ -93,6 +93,7 @@ const ImageDescriptionPage: React.FC<Props> = () => {
       context?.setCurrentImage({
         imageUri: imageResult.assets[0].uri,
         uniqueId: imageId,
+        location: context?.location
       });
     } else {
       console.log("No selection, canceled, or no image selected.");
@@ -110,6 +111,8 @@ const ImageDescriptionPage: React.FC<Props> = () => {
     context?.setLocation([location]);
     console.log("Location:", location);
     setLocationLoading(false);
+
+    
   }
 
     return (

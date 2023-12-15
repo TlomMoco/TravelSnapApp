@@ -13,7 +13,7 @@ type ImageContextType = {
     setImageUrls: (urls: string[]) => void;
     setDescription: (desc: string[]) => void;
     getCurrentDescription: () => void;
-    setFireStoreValues: (desc: string[]) => void;
+    setFireStoreValues: (desc: string[], location: Location.LocationObject[]) => void;
     setLocation: (location: Location.LocationObject[]) => void;
 };
 
@@ -46,7 +46,7 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
         return "";
     }
     
-    const setFireStoreValues = async (desc: string[]) => {
+    const setFireStoreValues = async (desc: string[], location: Location.LocationObject[]) => {
         setDescription(desc)
 
         if(currentImage){
@@ -56,8 +56,8 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
                 await setDoc(imageDocRef, {
                     image: imageId,
                     imageUrl: currentImage.imageUri,
-                    description: desc || '',
-                    location: currentImage.location,
+                    description: desc || "",
+                    location: location || "",
                 }, { merge: true });
 
                 console.log('Details saved successfully!');
