@@ -1,3 +1,4 @@
+import * as Location from 'expo-location';
 
 export type ImageInfo = {
     imageUri: string; 
@@ -20,6 +21,7 @@ export type RootStackParamList = {
     ImageDetailPage: {
       imageUrl: string;
       description: string;
+      location: Location.LocationObject | null;
     };
     Login: undefined;
     Tabs: undefined;
