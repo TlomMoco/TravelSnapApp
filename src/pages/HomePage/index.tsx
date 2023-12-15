@@ -44,15 +44,18 @@ const HomePage: React.FC = () => {
           const url = await getDownloadURL(imageRef);
           const docs = await getDoc(doc(FIREBASE_DB, "images", imageRef.name));
           const description = docs.exists() ? docs.data().description || "" : "";
+          const location = docs.exists() ? docs.data().location.coords : null;
 
-          return { url, description }
+          return { url, description, location }
         })
       );
       const description = imageData.map((data) => data.description);
       const urls = imageData.map((data) => data.url)
+      const locations = imageData.map((data) => data.location);
 
       context?.setDescription(description)
       context?.setImageUrls(urls);
+      context?.setLocation(locations)
 
       console.log(description)
       console.log("Urls: ", urls)
@@ -65,7 +68,7 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     fetchImages();
     
-  }, [context?.currentImage, context?.location]);
+  }, [context?.currentImage]);
 
 
 
@@ -82,7 +85,11 @@ const HomePage: React.FC = () => {
           {context?.imageUrls.map((data, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => navigation.navigate('ImageDetailPage', { imageUrl: context?.imageUrls[index], description: context?.description[index], location: context?.location[index]})}
+              onPress={() => navigation.navigate('ImageDetailPage', { 
+                imageUrl: context?.imageUrls[index], 
+                description: context?.description[index], 
+                location: context?.location[index]
+              })}
               className="m-2 bg-orange-300 rounded text-right"
             >
               <Image

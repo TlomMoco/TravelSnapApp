@@ -107,7 +107,7 @@ const ImageDescriptionPage: React.FC<Props> = () => {
       return;
     }
     let location = await Location.getCurrentPositionAsync({});
-    context?.setLocation(location);
+    context?.setLocation([location]);
     console.log("Location:", location);
     setLocationLoading(false);
   }

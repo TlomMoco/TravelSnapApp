@@ -3,7 +3,7 @@ import * as Location from 'expo-location';
 export type ImageInfo = {
     imageUri: string; 
     uniqueId: string;
-    location?: number | null;
+    location?: number;
 }
 
 type ImageContextType = {
@@ -21,7 +21,7 @@ export type RootStackParamList = {
     ImageDetailPage: {
       imageUrl: string;
       description: string;
-      location: Location.LocationObject | null;
+      location?: Location.LocationObject;
     };
     Login: undefined;
     Tabs: undefined;

@@ -8,13 +8,13 @@ type ImageContextType = {
     currentImage: ImageInfo | null;
     imageUrls: string[];
     description: string[];
-    location: Location.LocationObject | null;
+    location: Location.LocationObject[];
     setCurrentImage: (image: ImageInfo | null) => void;
     setImageUrls: (urls: string[]) => void;
     setDescription: (desc: string[]) => void;
     getCurrentDescription: () => void;
     setFireStoreValues: (desc: string[]) => void;
-    setLocation: (location: Location.LocationObject | null) => void;
+    setLocation: (location: Location.LocationObject[]) => void;
 };
 
 
@@ -26,7 +26,7 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
     const [currentImage, setCurrentImage] = useState<ImageInfo | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [description, setDescription] = useState<string[]>([]);
-    const [location, setLocation] = useState<Location.LocationObject | null>(null);
+    const [location, setLocation] = useState<Location.LocationObject[]>([]);
 
     const getCurrentDescription = async () => {
             if(currentImage){

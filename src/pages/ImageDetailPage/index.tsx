@@ -9,7 +9,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ImageDetailPage'>;
 
 const ImageDetailPage = ({route} : Props) => {
   const { imageUrl, description, location } = route.params; 
-  
+  const coordinates = location?.coords;
+
 
   return (
     <ImageBackground source={require('../../assets/images/BackgroundForestDetail.png')} resizeMode='cover' className='flex-1'>
@@ -20,6 +21,25 @@ const ImageDetailPage = ({route} : Props) => {
             <Image source={{ uri: imageUrl }} style={{ width: 300, height: 350, borderRadius: 5 }}/>
             <Text className="px-3 py-2 text-stone-500 italic border-b border-dashed">Description:</Text>
             <Text className="font-bold p-3 py-5">{description}</Text>
+            {coordinates && (
+              <Mapview className="h-50 w-full rounded-lg mt-5"
+                initialRegion={{
+                  latitude: coordinates.latitude,
+                  longitude: coordinates.longitude,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01,
+                }}
+              >
+                <Marker
+                  coordinate={{
+                    latitude: coordinates.latitude,
+                    longitude: coordinates.longitude,
+                  }}
+                  title={"Image location"}
+                  description={description}
+                />
+              </Mapview>
+            )}
           </View>
         </View>
       </ScrollView>
