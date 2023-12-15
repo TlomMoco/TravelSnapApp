@@ -17,6 +17,10 @@ export type RootStackParamList = {
       imageUrl: string;
       imageId: string;
     };
+    ImageDetailPage: {
+      imageUrl: string;
+      imageId: string;
+    };
     Login: undefined;
     Tabs: undefined;
     Home: undefined;

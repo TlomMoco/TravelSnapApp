@@ -7,6 +7,7 @@ import { useState, useEffect } from "react"
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
 import ImageDescriptionPage from "../pages/ImageDescriptionPage";
 import { RootStackParamList } from "../model/data";
+import ImageDetailPage from "../pages/ImageDetailPage";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -31,6 +32,7 @@ const WelcomeRoutes: React.FC = () => {
             <Stack.Group>
              <Stack.Screen name="Tabs" component={TabsView}  options={{headerShown: false}} ></Stack.Screen>
              <Stack.Screen name="ImageDescriptionPage" component={ImageDescriptionPage} options={{headerShown: false}}></Stack.Screen>
+             <Stack.Screen name="ImageDetailPage" component={ImageDetailPage} options={{headerShown: false}}></Stack.Screen>
             </Stack.Group>
           ) : (
             // If no user, loggin is rendered 
