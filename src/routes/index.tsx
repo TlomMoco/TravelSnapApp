@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import GeoLocationPage from "../pages/GeolocationPage";
 import HomePage from "../pages/HomePage";
 import CameraPage from "../pages/CameraPage";
 import SettingsPage from "../pages/SettingsPage";
@@ -34,11 +33,6 @@ const TabsView = () => {
                 name="Home" 
                 component={HomePage}
                 options= {createTabOptions("home-outline")}
-            ></Tab.Screen>
-            <Tab.Screen   
-                name="Geo location"
-                component={GeoLocationPage}
-                options={createTabOptions("globe-outline")}
             ></Tab.Screen>
             <Tab.Screen 
                 name="Camera"
