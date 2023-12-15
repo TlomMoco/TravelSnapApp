@@ -32,13 +32,13 @@ const ImageDescriptionPage: React.FC<Props> = () => {
   const localUri = params.imageUrl; 
   const [loading, setLoading] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(imageUrl);
-  const [location, setLocation] = useState<any>(null);
 
   const handleSubmit = async () => {
     setLoading(true);
       try {
         const imageUpload = currentImage || imageUrl;
         const downloadURL = await ImageUpload(localUri, imageId);
+  
         if (imageUpload) {
           const imageDocRef = doc(FIREBASE_DB, 'images', imageId);
 
@@ -46,14 +46,14 @@ const ImageDescriptionPage: React.FC<Props> = () => {
             imageId,
             imageUrl: downloadURL,
             description: context?.description,
+            location: context?.location,
             
           }, {merge: true});
 
           context?.setCurrentImage({
             imageUri: imageUpload,
             uniqueId: imageId,
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
+            
           });
 
           console.log("Image uploaded to backend");
@@ -92,8 +92,6 @@ const ImageDescriptionPage: React.FC<Props> = () => {
       context?.setCurrentImage({
         imageUri: imageResult.assets[0].uri,
         uniqueId: imageId,
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
       });
     } else {
       console.log("No selection, canceled, or no image selected.");
@@ -107,8 +105,9 @@ const ImageDescriptionPage: React.FC<Props> = () => {
       return;
     }
     let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
+    context?.setLocation(location);
     console.log("Location:", location);
+    context?.setLocation(location);
   }
 
   return (
