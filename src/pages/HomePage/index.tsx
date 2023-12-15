@@ -82,7 +82,7 @@ const HomePage: React.FC = () => {
           {context?.imageUrls.map((data, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => navigation.navigate('ImageDetailPage', { imageUrl: context?.imageUrls[index], description: context?.description[index] })}
+              onPress={() => navigation.navigate('ImageDetailPage', { imageUrl: context?.imageUrls[index], description: context?.description[index], location: context?.location[index]})}
               className="m-2 bg-orange-300 rounded text-right"
             >
               <Image
