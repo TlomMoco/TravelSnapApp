@@ -78,23 +78,17 @@ const HomePage: React.FC = () => {
       <View className="flex-1 ">
       <ScrollView>
           {context?.imageUrls.map((data, index) => (
-            <View key={index} className="m-2 items-center justify-center bg-orange-300 rounded">
+            <View key={index} className="m-2 bg-orange-300 rounded text-right">
               <Image
                 source={{ uri: data }}
                 style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
               />
-              <Text className="font-bold p-5">{context.description}</Text>
+              <Text className="px-3 py-2 text-stone-500 italic border-b border-dashed">Description:</Text>
+              <Text className="font-bold p-3 py-5">{context.description}</Text>
             </View>
           ))}
         </ScrollView>
       </View>
-
-      <View className="items-center justify-center ">
-        <TouchableOpacity className="m-2 p-4 bg-orange-500 py-2 rounded-lg items-center justify-center">
-          <Text className="text-white font-bold">Image-Picker</Text>
-        </TouchableOpacity>
-      </View>
-
     </View>
   );
 };
