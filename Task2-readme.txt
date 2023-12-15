@@ -1,6 +1,10 @@
 
 Travel Snap App functionality:
 
+IMPORTANT: 
+    - When installing node-modules you may need to use command npm install --force to get all the dependecies/installations.
+    - The application runs on both iOS and Anroid, but on web the styling does not show. Bacause nativewind does not support web. 
+
 1. Authentification / Login Page:
     - Users are required to log in before accessing the App.
     - If the users are not logged in they will be redirected to the Login Page.
@@ -56,8 +60,11 @@ Travel Snap App functionality:
         > A user profile that displays the users email (username) 
         > Profile picture
     
-    - The profile picture can be set or changed by selecting an image from the devices library.
-        
+    - The profile picture can be set or changed by selecting an image from the devices library, 
+    that get stored in the database, so when a user is logging in and out the profile picutre is always there. 
+    
+    - There is option for DarkMode, that also get stored so the settings is not botherd when user is logging in or out.
+    - There is a logg out button in the settings.
 
 
 
