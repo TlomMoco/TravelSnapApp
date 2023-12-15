@@ -5,10 +5,15 @@ import { UseImageContext } from '../../providers/TravelSnapContextProvider';
 import { useTheme } from '../../providers/ThemeContext'; 
 import { doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_DB } from '../../firebase/FirebaseConfig';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../model/data';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const HomePage: React.FC = () => {
   const context = UseImageContext();
   const storage = getStorage();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
 
   const { isDarkMode } = useTheme(); 
   const textColor = isDarkMode ? "text-white" : "text-black";
@@ -64,30 +69,33 @@ const HomePage: React.FC = () => {
 
   return (
     <View className={`flex-1 items-center justify-center ${backgroundColor}`}>
-
+  
       <View className="mt-10 items-center justify-center">
         <Text className={`text-lg font-bold text-black color-white ${textColor}`}>Home Page</Text>
         <TextInput className={`m-5 p-1 px-20 bg-transparent border border-orange-400 rounded items-center content-center border-rounded ${textColor}`} placeholder="Search on tags..." placeholderTextColor={`${placeholderColor}`}/>
       </View>
-
+  
       <View className="flex-1 ">
-      <ScrollView>
+        <ScrollView>
           {context?.imageUrls.map((data, index) => (
-            <View key={index} className="m-2 bg-orange-300 rounded text-right">
+            <TouchableOpacity
+              key={index}
+              onPress={() => navigation.navigate('ImageDetailPage', { imageUrl: context?.imageUrls[index], imageId: context?.imageUrls[index] })}
+              className="m-2 bg-orange-300 rounded text-right"
+            >
               <Image
                 source={{ uri: data }}
                 style={{ width: dimensions.width, height: dimensions.height, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
               />
               <Text className="px-3 py-2 text-stone-500 italic border-b border-dashed">Description:</Text>
               <Text className="font-bold p-3 py-5">
-                {
-                  context.description[index]
-                }
-                </Text>
-            </View>
+                {context.description[index]}
+              </Text>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
+  
     </View>
   );
 };
