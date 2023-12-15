@@ -46,11 +46,14 @@ const ImageDescriptionPage: React.FC<Props> = () => {
             imageId,
             imageUrl: downloadURL,
             description: context?.description,
+            
           }, {merge: true});
 
           context?.setCurrentImage({
             imageUri: imageUpload,
             uniqueId: imageId,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
           });
 
           console.log("Image uploaded to backend");

@@ -1,7 +1,9 @@
 
 export type ImageInfo = {
     imageUri: string; 
-    uniqueId: string
+    uniqueId: string;
+    latitude?: number | null;
+    longitude?: number | null;
 }
 
 type ImageContextType = {
