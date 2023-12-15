@@ -109,7 +109,6 @@ const ImageDescriptionPage: React.FC<Props> = () => {
     let location = await Location.getCurrentPositionAsync({});
     context?.setLocation(location);
     console.log("Location:", location);
-    context?.setLocation(location);
     setLocationLoading(false);
   }
 
@@ -154,7 +153,7 @@ const ImageDescriptionPage: React.FC<Props> = () => {
                       <TextInput
                         className="mb-4 p-4 h-12 border border-gray-300 rounded-lg"
                         placeholder="Enter description"
-                        onChangeText={(text) => context?.setDescription(text)}
+                        onChangeText={(text) => context?.setDescription([text])}
                       />
                       <TouchableOpacity
                         onPress={handleSubmit}
