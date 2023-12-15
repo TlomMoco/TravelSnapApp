@@ -7,14 +7,12 @@ import * as Location from 'expo-location';
 type ImageContextType = {
     currentImage: ImageInfo | null;
     imageUrls: string[];
-    description: string;
-    location: Location.LocationObject | null;
+
     setCurrentImage: (image: ImageInfo | null) => void;
     setImageUrls: (urls: string[]) => void;
-    setDescription: (desc: string) => void;
+    setDescription: (desc: string[]) => void;
     getCurrentDescription: () => void;
-    setFirestoreValues: (desc: string) => void;
-    setLocation: (location: Location.LocationObject | null) => void;
+
 };
 
 
@@ -25,8 +23,7 @@ export const UseImageContext = () => useContext<ImageContextType | undefined>(Im
 const TravelContextProvider = ({children} : {children: ReactNode}) => {
     const [currentImage, setCurrentImage] = useState<ImageInfo | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
-    const [description, setDescription] = useState('');
-    const [location, setLocation] = useState<Location.LocationObject | null>(null);
+
 
     const getCurrentDescription = async () => {
             if(currentImage){
@@ -46,7 +43,7 @@ const TravelContextProvider = ({children} : {children: ReactNode}) => {
         return "";
     }
     
-    const setFirestoreValues = async (desc: string) => {
+    const setFirestoreValues = async (desc: string[]) => {
         setDescription(desc)
 
         if(currentImage){

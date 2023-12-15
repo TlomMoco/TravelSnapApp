@@ -112,6 +112,7 @@ const ImageDescriptionPage: React.FC<Props> = () => {
     context?.setLocation(location);
     setLocationLoading(false);
   }
+
     return (
       <ImageBackground
         source={require('../../assets/images/BackgroundForestDescription.png')}
