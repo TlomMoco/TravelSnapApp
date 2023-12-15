@@ -15,7 +15,7 @@ const ImageDetailPage = ({route} : Props) => {
     <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}>
         <View className='flex-1 justify-center items-center'>
           <Text>Image Detail Page</Text>
-          <Image source={{ uri: imageUrl}} />
+          <Image source={{ uri: imageUrl}} style={{width: 100, height: 100, borderRadius: 10}}/>
           <Text>{description}</Text>
         </View>
       </ScrollView>
